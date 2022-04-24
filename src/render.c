@@ -1,0 +1,124 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   render.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lucas <lucas@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/22 11:55:53 by lucas         #+#    #+#                 */
+/*   Updated: 2022/04/22 11:55:53 by lucas         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf.h"
+#include "libft.h"
+#include <math.h>
+
+static void	rot_yaw(t_point *point, double yaw)
+{
+	double	cosine;
+	double	sine;
+	int		x;
+	int		z;
+
+	cosine = cos(yaw);
+	sine = sin(yaw);
+	x = point->x;
+	z = point->z;
+	point->x = (int) (x * cosine + z * sine);
+	point->z = (int) (z * cosine - x * sine);
+}
+
+static void	rot_pitch(t_point *point, double pitch)
+{
+	double	cosine;
+	double	sine;
+	int		y;
+	int		z;
+
+	cosine = cos(pitch);
+	sine = sin(pitch);
+	y = point->y;
+	z = point->z;
+	point->y = (int) (y * cosine - z * sine);
+	point->z = (int) (z * cosine + y * sine);
+}
+
+static void	rot_roll(t_point *point, double roll)
+{
+	double	cosine;
+	double	sine;
+	int		x;
+	int		y;
+
+	x = point->x;
+	y = point->y;
+	cosine = cos(roll);
+	sine = sin(roll);
+	point->x = (int) (x * cosine - y * sine);
+	point->y = (int) (y * cosine + x * sine);
+}
+
+static void	rotate(t_point *point, t_cam *cam)
+{
+	double	yaw;
+	double	pitch;
+	double	roll;
+
+	yaw = cam->yaw + 2 * M_PI - M_PI_4; // 45 deg
+	pitch = cam->pitch + atan(M_SQRT1_2);
+	roll = cam->roll + M_PI / 3;
+	rot_yaw(point, yaw);
+	rot_pitch(point, pitch);
+	rot_roll(point, roll);
+}
+
+t_point	project(t_point point, t_cam *cam)
+{
+	subtract(&point, &cam->focal);
+	point.x *= cam->scale;
+	point.y *= cam->scale;
+	point.z *= cam->scale;
+	rotate(&point, cam);
+	point.x += cam->offset.x;
+	point.y += cam->offset.y;
+	return (point);
+}
+
+void	draw_test(mlx_image_t *img, t_cam *cam)
+{
+	t_point origin = {0, 0, 0, get_rgba(0)};
+	t_point x_axis = {1, 0, 0, get_rgba(0)};
+	t_point y_axis = {0, 1, 0, get_rgba(0)};
+	t_point z_axis = {0, 0, 1, get_rgba(0)};
+	t_point	square = {1, 1, 0, get_rgba(0)};
+	origin = project(origin, cam);
+	x_axis = project(x_axis, cam);
+	y_axis = project(y_axis, cam);
+	z_axis = project(z_axis, cam);
+	square = project(square, cam);
+	draw_line(img, origin, x_axis, 0xFF0000FF);
+	draw_line(img, origin, y_axis, 0x00FF00FF);
+	draw_line(img, origin, z_axis, 0x0000FFFF);
+	draw_line(img, square, x_axis,0xFFFFFFFF);
+	draw_line(img, square, y_axis,0xFFFFFFFF);
+}
+
+void	render(t_fdf *data)
+{
+	mlx_image_t	*img;
+
+	img = data->img;
+	ft_bzero(img->pixels, img->width * img->height * sizeof(int));
+	int x = 0;
+	for (;x <= data->map.max_x; x++) {
+		for (int y = 0; y <= data->map.max_y; y++) {
+			t_point *a = data->map.points[y][x];
+			if (x < data->map.max_x)
+				draw_line(img, project(*a, &data->cam), project(*data->map.points[y][x + 1], &data->cam), 0xFFFFFFFF);
+			if (y < data->map.max_y)
+				draw_line(img, project(*a, &data->cam), project(*data->map.points[y + 1][x], &data->cam), 0xFFFFFFFF);
+		}
+	}
+	draw_test(img, &data->cam);
+}

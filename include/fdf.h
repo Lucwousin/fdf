@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   fdf.h                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lucas <lucas@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/20 17:01:03 by lucas         #+#    #+#                 */
+/*   Updated: 2022/04/20 17:01:03 by lucas         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef FDF_H
+# define FDF_H
+# define WINDOW_WIDTH	1280
+# define WINDOW_HEIGHT	720
+# define DEFAULT_COLOUR	0xFFFFFFFF
+# include "MLX42/MLX42.h"
+// TODO: pnp_plat
+typedef struct s_rgba {
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+	unsigned char	a;
+}	t_rgba;
+
+typedef struct s_hsva {
+	unsigned char	h;
+	unsigned char	s;
+	unsigned char	v;
+	unsigned char	a;
+}	t_hsva;
+
+typedef struct s_point {
+	int		x;
+	int		y;
+	int		z;
+	t_rgba	colour;
+}	t_point;
+
+typedef struct s_map {
+	t_point	***points;
+	int		max_x;
+	int		max_y;
+	int		max_z;
+	int		min_z;
+}	t_map;
+
+typedef struct s_cam {
+	double	pitch;
+	double	yaw;
+	double	roll;
+	int		scale;
+	t_point	focal;
+	t_point	offset;
+}	t_cam;
+
+typedef struct s_fdf {
+	char		*title;
+	t_map		map;
+	t_cam		cam;
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+}	t_fdf;
+
+bool	parse(t_map *map, const char *file);
+void	render(t_fdf *data);
+void	draw_line(mlx_image_t *img, t_point a, t_point b, uint32_t colour);
+void	reset_cam(t_fdf *data);
+
+t_rgba	get_rgba(uint32_t hex);
+
+void	subtract(t_point *a, t_point *b);
+
+void	key_event(mlx_key_data_t event, void *param);
+void	scroll_event(double xdelta, double ydelta, void *param);
+void	resize_event(int32_t width, int32_t height, void *param);
+
+#endif
