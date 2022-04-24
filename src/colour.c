@@ -39,7 +39,7 @@ t_hsva	rgba_to_hsva(t_rgba rgb)
 	hsv.v = rgb_max;
 	if (hsv.v == 0)
 		return (hsv);
-	hsv.s = 0xFF * (unsigned int) (rgb_max - rgb_min) / hsv.v;
+	hsv.s = 0xFF * (unsigned int) (rgb_max - rgb_min) / rgb_max;
 	if (hsv.s == 0)
 		return (hsv);
 	if (rgb_max == rgb.r)
