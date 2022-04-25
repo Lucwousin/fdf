@@ -17,10 +17,10 @@ t_rgba	get_rgba(uint32_t hex)
 {
 	t_rgba	rgba;
 
-	rgba.r = hex >> 24 & 0xFF;
-	rgba.g = hex >> 16 & 0xFF;
-	rgba.b = hex >> 8 & 0xFF;
-	rgba.a = hex & 0xFF;
+	rgba.r = hex >> 24u & 0xFFu;
+	rgba.g = hex >> 16u & 0xFFu;
+	rgba.b = hex >> 8u & 0xFFu;
+	rgba.a = hex & 0xFFu;
 	return (rgba);
 }
 
