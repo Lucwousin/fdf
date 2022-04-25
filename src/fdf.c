@@ -53,7 +53,7 @@ void	reset_cam(t_fdf *data)
 	data->cam.scale = 30;
 	data->cam.focal.x = data->map.max_x / 2;
 	data->cam.focal.y = data->map.max_y / 2;
-	data->cam.focal.z = (data->map.max_z - data->map.min_z) / 2;
+	data->cam.focal.z = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
 	data->cam.pitch = 0;
 	data->cam.yaw = 0;
 	data->cam.roll = 0;
