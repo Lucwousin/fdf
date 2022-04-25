@@ -37,7 +37,12 @@ LIBFT_INC = -I ./libft/include
 MLX = ./MLX42/
 MLX_LIB = $(addprefix $(MLX), libmlx42.a)
 MLX_INC = -I ./MLX42/include
-MLX_ARG = -ldl -lglfw
+
+ifeq ($(shell uname -s), Darwin)
+	MLX_ARG = -lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
+else
+	MLX_ARG = -ldl -lglfw
+endif
 
 all: libft libmlx $(NAME)
 
