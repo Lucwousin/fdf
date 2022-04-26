@@ -25,7 +25,7 @@ static t_point	*create_point(char *str)
 	if (!point)
 		return (NULL);
 	strs = ft_split(str, ',');
-	if (!strs)
+	if (!strs || !strs[0] || *strs[0] == '\0' || *strs[0] == '\n')
 	{
 		free(point);
 		return (NULL);
@@ -64,7 +64,7 @@ static t_point	***parse_fd(int fd, int i)
 	return (ret);
 }
 
-static void	init_map_data(t_map *map)
+static bool	init_map_data(t_map *map)
 {
 	int	x;
 	int	y;
@@ -83,11 +83,15 @@ static void	init_map_data(t_map *map)
 			map->max_z = ft_max(map->points[y][x]->z, map->max_z);
 			++x;
 		}
-		map->max_x = x - 1;
+		if (map->max_x == 0)
+			map->max_x = x - 1;
+		else if (map->max_x != x - 1)
+			return (false);
 		x = 0;
 		++y;
 	}
 	map->max_y = y - 1;
+	return (true);
 }
 
 bool	parse(t_map *map, const char *file)
@@ -101,6 +105,5 @@ bool	parse(t_map *map, const char *file)
 	close(fd);
 	if (!map->points)
 		return (false);
-	init_map_data(map);
-	return (true);
+	return (init_map_data(map));
 }
