@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "libft.h"
 
 void	subtract(t_point *a, t_point *b)
 {
