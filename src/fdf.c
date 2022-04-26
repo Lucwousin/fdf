@@ -17,17 +17,10 @@
 
 static void	cleanup(t_fdf *data)
 {
-	int	i;
-
 	if (data->title)
 		free(data->title);
 	if (data->map.points)
-	{
-		i = 0;
-		while (data->map.points[i])
-			ft_free_mult((void **) data->map.points[i++]);
-		free(data->map.points);
-	}
+		cleanup_map(&data->map);
 	if (data->img)
 		mlx_delete_image(data->mlx, data->img);
 	if (data->mlx)
@@ -59,7 +52,6 @@ void	reset_cam(t_fdf *data)
 	data->cam.roll = 0;
 	data->cam.offset.x = (int) data->img->width / 2;
 	data->cam.offset.y = (int) data->img->height / 2;
-	data->cam.offset.z = 0;
 }
 
 int	main(int argc, char **argv)

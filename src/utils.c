@@ -18,3 +18,13 @@ void	subtract(t_point *a, t_point *b)
 	a->y -= b->y;
 	a->z -= b->z;
 }
+
+void	cleanup_map(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	while (map->points[i])
+		ft_free_mult((void **) map->points[i++]);
+	free(map->points);
+}
