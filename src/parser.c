@@ -69,12 +69,12 @@ static bool	init_map_data(t_map *map)
 	int	x;
 	int	y;
 
-	x = 0;
 	y = 0;
 	map->min_z = INT32_MAX;
 	map->max_z = INT32_MIN;
 	while (map->points[y])
 	{
+		x = 0;
 		while (map->points[y][x])
 		{
 			map->points[y][x]->x = x;
@@ -87,7 +87,6 @@ static bool	init_map_data(t_map *map)
 			map->max_x = x - 1;
 		else if (map->max_x != x - 1)
 			return (false);
-		x = 0;
 		++y;
 	}
 	map->max_y = y - 1;

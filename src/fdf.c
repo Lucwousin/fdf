@@ -43,15 +43,18 @@ static void	init_mlx_hooks(t_fdf *data)
 
 void	reset_cam(t_fdf *data)
 {
-	data->cam.scale = 50;
-	data->cam.focal.x = data->map.max_x / 2;
-	data->cam.focal.y = data->map.max_y / 2;
-	data->cam.focal.z = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
-	data->cam.pitch = 0;
-	data->cam.yaw = 0;
-	data->cam.roll = 0;
-	data->cam.offset.x = (int) data->img->width / 2;
-	data->cam.offset.y = (int) data->img->height / 2;
+	t_cam	*cam;
+
+	cam = &data->cam;
+	cam->scale = 50;
+	cam->focal.x = data->map.max_x / 2;
+	cam->focal.y = data->map.max_y / 2;
+	cam->focal.z = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
+	cam->pitch = 0;
+	cam->yaw = 0;
+	cam->roll = 0;
+	cam->offset.x = (int) data->img->width / 2;
+	cam->offset.y = (int) data->img->height / 2;
 }
 
 int	main(int argc, char **argv)
