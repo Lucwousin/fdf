@@ -25,8 +25,8 @@ static void	rot_yaw(t_point *point, double yaw)
 	sine = sin(yaw);
 	x = point->x;
 	z = point->z;
-	point->x = (int) (x * cosine + z * sine);
-	point->z = (int) (z * cosine - x * sine);
+	point->x = (int)round(x * cosine + z * sine);
+	point->z = (int)round(z * cosine - x * sine);
 }
 
 static void	rot_pitch(t_point *point, double pitch)
@@ -40,8 +40,8 @@ static void	rot_pitch(t_point *point, double pitch)
 	sine = sin(pitch);
 	y = point->y;
 	z = point->z;
-	point->y = (int) (y * cosine - z * sine);
-	point->z = (int) (z * cosine + y * sine);
+	point->y = (int)round(y * cosine - z * sine);
+	point->z = (int)round(z * cosine + y * sine);
 }
 
 static void	rot_roll(t_point *point, double roll)
@@ -55,8 +55,8 @@ static void	rot_roll(t_point *point, double roll)
 	y = point->y;
 	cosine = cos(roll);
 	sine = sin(roll);
-	point->x = (int) (x * cosine - y * sine);
-	point->y = (int) (y * cosine + x * sine);
+	point->x = (int)round(x * cosine - y * sine);
+	point->y = (int)round(y * cosine + x * sine);
 }
 
 static void	rotate(t_point *point, t_cam *cam)
@@ -65,12 +65,15 @@ static void	rotate(t_point *point, t_cam *cam)
 	double	pitch;
 	double	roll;
 
-	yaw = cam->yaw + 2 * M_PI - M_PI_4; // 45 deg
-	pitch = cam->pitch + atan(M_SQRT1_2);
-	roll = cam->roll + M_PI / 3;
+	yaw = cam->yaw;
+	pitch = cam->pitch;
+	roll = cam->roll;
 	rot_yaw(point, yaw);
 	rot_pitch(point, pitch);
 	rot_roll(point, roll);
+	rot_yaw(point, -M_PI_4);
+	rot_pitch(point, atan(M_SQRT1_2));
+	rot_roll(point, M_PI / 3);
 }
 
 t_point	project(t_point point, t_cam *cam)
@@ -91,17 +94,13 @@ void	draw_test(mlx_image_t *img, t_cam *cam)
 	t_point x_axis = {1, 0, 0, get_rgba(0)};
 	t_point y_axis = {0, 1, 0, get_rgba(0)};
 	t_point z_axis = {0, 0, 1, get_rgba(0)};
-	t_point	square = {1, 1, 0, get_rgba(0)};
 	origin = project(origin, cam);
 	x_axis = project(x_axis, cam);
 	y_axis = project(y_axis, cam);
 	z_axis = project(z_axis, cam);
-	square = project(square, cam);
 	draw_line(img, origin, x_axis, 0xFF0000FF);
 	draw_line(img, origin, y_axis, 0x00FF00FF);
 	draw_line(img, origin, z_axis, 0x0000FFFF);
-	draw_line(img, square, x_axis,0xFFFFFFFF);
-	draw_line(img, square, y_axis,0xFFFFFFFF);
 }
 
 void	render(t_fdf *data)
