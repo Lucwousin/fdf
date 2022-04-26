@@ -108,7 +108,7 @@ void	render(t_fdf *data)
 	mlx_image_t	*img;
 
 	img = data->img;
-	ft_bzero(img->pixels, img->width * img->height * sizeof(int));
+	ft_bzero(img->pixels, img->width * img->height * sizeof(uint32_t));
 	int x = 0;
 	for (;x <= data->map.max_x; x++) {
 		for (int y = 0; y <= data->map.max_y; y++) {
