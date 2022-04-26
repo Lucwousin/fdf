@@ -44,15 +44,20 @@ void	key_event(mlx_key_data_t event, void *param)
 void	scroll_event(double xdelta, double ydelta, void *param)
 {
 	t_fdf	*fdf;
+	int		zoom_amt;
 
 	(void) xdelta;
 	fdf = param;
 	if (ydelta > 0)
-		fdf->cam.scale += 1;
+		zoom_amt = 1;
 	else if (ydelta < 0)
-		fdf->cam.scale -= 1;
+		zoom_amt = -1;
 	else
 		return ;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT_CONTROL)
+		|| mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT_CONTROL))
+		zoom_amt *= 10;
+	fdf->cam.scale += zoom_amt;
 	render(fdf);
 }
 
