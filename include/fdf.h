@@ -76,4 +76,6 @@ void	key_event(mlx_key_data_t event, void *param);
 void	scroll_event(double xdelta, double ydelta, void *param);
 void	resize_event(int32_t width, int32_t height, void *param);
 
+void	cleanup_map(t_map *map);
+
 #endif
