@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   colour.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: lsinke <lsinke@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/28 20:03:15 by lsinke        #+#    #+#                 */
+/*   Updated: 2022/04/28 20:03:15 by lsinke        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 #include "libft.h"
 #include <math.h>
@@ -52,32 +64,28 @@ t_rgba	get_rgba(uint32_t hex)
  */
 t_hsva	rgba_to_hsva(t_rgba rgb)
 {
-	t_hsva			hsv;
-	unsigned char	rgb_min;
-	unsigned char	rgb_max;
+	t_hsva	hsv;
+	uint8_t	rgb_min;
+	uint8_t	rgb_max;
+	uint8_t	rgb_delta;
 
 	ft_bzero(&hsv, sizeof(t_hsva));
-	rgb_min = ft_min(rgb.rgba.r, rgb.rgba.g);
-	rgb_min = ft_min(rgb.rgba.b, rgb_min);
-	rgb_max = ft_max(rgb.rgba.r, rgb.rgba.g);
-	rgb_max = ft_max(rgb.rgba.b, rgb_max);
+	rgb_min = ft_min(ft_min(rgb.rgba.r, rgb.rgba.g), rgb.rgba.b);
+	rgb_max = ft_max(ft_max(rgb.rgba.r, rgb.rgba.g), rgb.rgba.b);
 	hsv.a = rgb.rgba.a;
 	if (rgb_max == 0)
 		return (hsv);
 	hsv.v = rgb_max / 255.0;
-	if (rgb_max == rgb_min)
+	rgb_delta = rgb_max - rgb_min;
+	if (rgb_delta == 0)
 		return (hsv);
-	hsv.s = (rgb_max - rgb_min) / (double) rgb_max;
+	hsv.s = rgb_delta / (double) rgb_max;
 	if (rgb_max == rgb.rgba.r)
-		hsv.h = DEG_60 * (0 + (rgb.rgba.g - rgb.rgba.b) / (double)(rgb_max - rgb_min));
+		hsv.h = DEG_60 * (0 + (rgb.rgba.g - rgb.rgba.b) / (double)(rgb_delta));
 	else if (rgb_max == rgb.rgba.g)
-		hsv.h = DEG_60 * (2 + (rgb.rgba.b - rgb.rgba.r) / (double)(rgb_max - rgb_min));
+		hsv.h = DEG_60 * (2 + (rgb.rgba.b - rgb.rgba.r) / (double)(rgb_delta));
 	else
-		hsv.h = DEG_60 * (4 + (rgb.rgba.r - rgb.rgba.g) / (double)(rgb_max - rgb_min));
-	if (hsv.h < 0.0)
-		hsv.h += 1.0;
-	else if (hsv.h > 1.0)
-		hsv.h -= 1.0;
+		hsv.h = DEG_60 * (4 + (rgb.rgba.r - rgb.rgba.g) / (double)(rgb_delta));
 	return (hsv);
 }
 
