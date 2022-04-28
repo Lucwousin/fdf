@@ -90,17 +90,17 @@ t_point	project(t_point point, t_cam *cam)
 
 void	draw_test(mlx_image_t *img, t_cam *cam)
 {
-	t_point origin = {0, 0, 0, get_rgba(0)};
-	t_point x_axis = {1, 0, 0, get_rgba(0)};
-	t_point y_axis = {0, 1, 0, get_rgba(0)};
-	t_point z_axis = {0, 0, 1, get_rgba(0)};
+	t_point origin = (t_point){0, 0, 0, get_rgba(0xFFFFFFFF)};
+	t_point x_axis = {1, 0, 0, get_rgba(0xFF0000FF)};
+	t_point y_axis = {0, 1, 0, get_rgba(0x00FF00FF)};
+	t_point z_axis = {0, 0, 1, get_rgba(0x0000FFFF)};
 	origin = project(origin, cam);
 	x_axis = project(x_axis, cam);
 	y_axis = project(y_axis, cam);
 	z_axis = project(z_axis, cam);
-	draw_line(img, origin, x_axis, 0xFF0000FF);
-	draw_line(img, origin, y_axis, 0x00FF00FF);
-	draw_line(img, origin, z_axis, 0x0000FFFF);
+	draw_line(img, origin, x_axis);
+	draw_line(img, origin, y_axis);
+	draw_line(img, origin, z_axis);
 }
 
 void	render(t_fdf *data)
@@ -114,9 +114,9 @@ void	render(t_fdf *data)
 		for (int y = 0; y <= data->map.max_y; y++) {
 			t_point *a = data->map.points[y][x];
 			if (x < data->map.max_x)
-				draw_line(img, project(*a, &data->cam), project(*data->map.points[y][x + 1], &data->cam), 0xFFFFFFFF);
+				draw_line(img, project(*a, &data->cam), project(*data->map.points[y][x + 1], &data->cam));
 			if (y < data->map.max_y)
-				draw_line(img, project(*a, &data->cam), project(*data->map.points[y + 1][x], &data->cam), 0xFFFFFFFF);
+				draw_line(img, project(*a, &data->cam), project(*data->map.points[y + 1][x], &data->cam));
 		}
 	}
 	draw_test(img, &data->cam);

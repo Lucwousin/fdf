@@ -16,19 +16,22 @@
 # define WINDOW_HEIGHT	720
 # define DEFAULT_COLOUR	0xFFFFFFFF
 # include "MLX42/MLX42.h"
-// TODO: pnp_plat
-typedef struct s_rgba {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-	unsigned char	a;
+
+typedef union u_rgba {
+	uint32_t	colour;
+	struct s_rgba {
+		uint8_t	a;
+		uint8_t	b;
+		uint8_t	g;
+		uint8_t	r;
+	} rgba;
 }	t_rgba;
 
 typedef struct s_hsva {
-	unsigned char	h;
-	unsigned char	s;
-	unsigned char	v;
-	unsigned char	a;
+	double	h;
+	double	s;
+	double	v;
+	uint8_t	a;
 }	t_hsva;
 
 typedef struct s_point {
@@ -65,10 +68,12 @@ typedef struct s_fdf {
 
 bool	parse(t_map *map, const char *file);
 void	render(t_fdf *data);
-void	draw_line(mlx_image_t *img, t_point a, t_point b, uint32_t colour);
+void	draw_line(mlx_image_t *img, t_point a, t_point b);
 void	reset_cam(t_fdf *data);
 
 t_rgba	get_rgba(uint32_t hex);
+t_hsva	rgba_to_hsva(t_rgba rgb);
+t_rgba	hsva_to_rgba(t_hsva hsv);
 
 void	subtract(t_point *a, t_point *b);
 
