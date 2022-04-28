@@ -41,6 +41,17 @@ typedef struct s_point {
 	t_rgba	colour;
 }	t_point;
 
+typedef struct s_line {
+	int		x;
+	int		y;
+	uint8_t	dx;
+	uint8_t	dy;
+	int8_t	x_step;
+	int8_t	y_step;
+	t_hsva	colour_a;
+	t_hsva	colour_b;
+}	t_line;
+
 typedef struct s_map {
 	t_point	***points;
 	int		max_x;
@@ -74,6 +85,7 @@ void	reset_cam(t_fdf *data);
 t_rgba	get_rgba(uint32_t hex);
 t_hsva	rgba_to_hsva(t_rgba rgb);
 t_rgba	hsva_to_rgba(t_hsva hsv);
+void	normalize_colours(t_hsva *a, t_hsva *b);
 
 void	subtract(t_point *a, t_point *b);
 
