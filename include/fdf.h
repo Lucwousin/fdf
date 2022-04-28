@@ -42,14 +42,14 @@ typedef struct s_point {
 }	t_point;
 
 typedef struct s_line {
-	int		x;
-	int		y;
-	uint8_t	dx;
-	uint8_t	dy;
-	int8_t	x_step;
-	int8_t	y_step;
-	t_hsva	colour_a;
-	t_hsva	colour_b;
+	int			x;
+	int			y;
+	uint32_t	dx;
+	uint32_t	dy;
+	int8_t		x_step;
+	int8_t		y_step;
+	t_hsva		colour_a;
+	t_hsva		colour_b;
 }	t_line;
 
 typedef struct s_map {
