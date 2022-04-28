@@ -59,7 +59,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC_DIR)fdf.h
 
 $(NAME): $(OBJS_PREFIXED)
 	@echo "Compiling main executable"
-	$(CC) $(OBJS_PREFIXED) $(LIBFT_LIB) $(MLX_LIB) $(MLX_ARG) -lm -o $(NAME)
+	@$(CC) $(OBJS_PREFIXED) $(LIBFT_LIB) $(MLX_LIB) $(MLX_ARG) -lm -o $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
