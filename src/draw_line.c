@@ -35,7 +35,7 @@ static double	calculate_progress(t_point a, t_point b, t_line *line)
 		else if (line->x == b.x)
 			return (1.0);
 		else
-			return abs(line->x - a.x) / (double) (line->dx);
+			return (abs(line->x - a.x) / (double)(line->dx));
 	}
 	else
 	{
@@ -44,7 +44,7 @@ static double	calculate_progress(t_point a, t_point b, t_line *line)
 		else if (line->y == b.y)
 			return (1.0);
 		else
-			return abs(line->y - a.y) / (double) (line->dy);
+			return (abs(line->y - a.y) / (double)(line->dy));
 	}
 }
 
@@ -52,7 +52,7 @@ uint32_t	intrpl_col(t_point a, t_point b, t_line *line)
 {
 	double	progress;
 	t_hsva	colour;
-	
+
 	if (a.colour.colour == b.colour.colour)
 		return (a.colour.colour);
 	progress = calculate_progress(a, b, line);
@@ -67,11 +67,10 @@ uint32_t	intrpl_col(t_point a, t_point b, t_line *line)
 	return (hsva_to_rgba(colour).colour);
 }
 
-
 t_line	get_line_info(t_point a, t_point b)
 {
 	t_line	line;
-	
+
 	line.dx = ft_abs(b.x - a.x);
 	line.dy = ft_abs(b.y - a.y);
 	if (a.x < b.x)
