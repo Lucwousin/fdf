@@ -32,7 +32,7 @@ void	draw_test(mlx_image_t *img, t_cam *cam)
 void	draw_between(t_fdf *data, t_point a, t_point b)
 {
 	mlx_image_t	*img;
-	
+
 	img = data->img;
 	a = project(a, &data->cam);
 	b = project(b, &data->cam);
@@ -50,17 +50,26 @@ void	draw_between(t_fdf *data, t_point a, t_point b)
 void	render(t_fdf *data)
 {
 	mlx_image_t	*img;
+	t_point		point;
+	uint32_t	x;
+	uint32_t	y;
 
 	img = data->img;
 	ft_bzero(img->pixels, img->width * img->height * sizeof(uint32_t));
-	for (uint32_t x = 0; x <= data->map.max_x; x++) {
-		for (uint32_t y = 0; y <= data->map.max_y; y++) {
-			t_point *p = data->map.points[y][x];
+	x = 0;
+	while (x <= data->map.max_x)
+	{
+		y = 0;
+		while (y <= data->map.max_y)
+		{
+			point = *data->map.points[y][x];
 			if (x < data->map.max_x)
-				draw_between(data, *p, *data->map.points[y][x + 1]);
+				draw_between(data, point, *data->map.points[y][x + 1]);
 			if (y < data->map.max_y)
-				draw_between(data, *p, *data->map.points[y + 1][x]);
+				draw_between(data, point, *data->map.points[y + 1][x]);
+			++y;
 		}
+		++x;
 	}
 	draw_test(img, &data->cam);
 }
