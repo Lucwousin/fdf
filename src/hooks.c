@@ -12,35 +12,37 @@
 
 #include "fdf.h"
 #include "MLX42/MLX42.h"
-#include <stdio.h>
+#define	CAM_SETTING_AMOUNT	0.05
+
+static void	change_cam_setting(double *setting, bool decrement)
+{
+	if (decrement)
+		*setting -= CAM_SETTING_AMOUNT;
+	else
+		*setting += CAM_SETTING_AMOUNT;
+}
 
 void	key_event(mlx_key_data_t event, void *param)
 {
 	t_fdf	*fdf;
+	keys_t	key;
 
 	fdf = param;
+	key = event.key;
 	if (event.action == MLX_PRESS || event.action == MLX_REPEAT)
 	{
-		if (event.key == MLX_KEY_ESCAPE)
+		if (key == MLX_KEY_ESCAPE)
 			mlx_close_window(fdf->mlx);
-		else if (event.key == MLX_KEY_A)
-			fdf->cam.yaw -= 0.05;
-		else if (event.key == MLX_KEY_D)
-			fdf->cam.yaw += 0.05;
-		else if (event.key == MLX_KEY_W)
-			fdf->cam.pitch += 0.05;
-		else if (event.key == MLX_KEY_S)
-			fdf->cam.pitch -= 0.05;
-		else if (event.key == MLX_KEY_Q)
-			fdf->cam.roll -= 0.05;
-		else if (event.key == MLX_KEY_E)
-			fdf->cam.roll += 0.05;
-		else if (event.key == MLX_KEY_0)
+		else if (key == MLX_KEY_A || key == MLX_KEY_D)
+			change_cam_setting(&fdf->cam.yaw, key == MLX_KEY_A);
+		else if (key == MLX_KEY_W || key == MLX_KEY_S)
+			change_cam_setting(&fdf->cam.pitch, key == MLX_KEY_S);
+		else if (key == MLX_KEY_Q || key == MLX_KEY_E)
+			change_cam_setting(&fdf->cam.roll, key == MLX_KEY_Q);
+		else if (key == MLX_KEY_PAGE_UP || key == MLX_KEY_PAGE_DOWN)
+			change_cam_setting(&fdf->cam.z_scale, key == MLX_KEY_PAGE_DOWN);
+		else if (key == MLX_KEY_0)
 			reset_cam(fdf);
-		else if (event.key == MLX_KEY_PAGE_UP)
-			fdf->cam.z_scale += 0.05;
-		else if (event.key == MLX_KEY_PAGE_DOWN)
-			fdf->cam.z_scale -= 0.05;
 		render(fdf);
 	}
 }
