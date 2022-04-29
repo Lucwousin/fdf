@@ -21,6 +21,7 @@ SRCS = colour.c\
 	   draw_line.c\
 	   hooks.c\
 	   parser.c\
+	   project.c\
 	   render.c\
 	   utils.c
 
