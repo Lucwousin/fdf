@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lucas <lucas@student.codam.nl>               +#+                     */
+/*   By: lsinke <lsinke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/20 16:47:58 by lucas         #+#    #+#                 */
-/*   Updated: 2022/04/20 16:47:58 by lucas         ########   odam.nl         */
+/*   Created: 2022/04/20 16:47:58 by lsinke        #+#    #+#                 */
+/*   Updated: 2022/04/20 16:47:58 by lsinke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

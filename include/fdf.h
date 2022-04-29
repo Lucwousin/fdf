@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   fdf.h                                              :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lucas <lucas@student.codam.nl>               +#+                     */
+/*   By: lsinke <lsinke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/20 17:01:03 by lucas         #+#    #+#                 */
-/*   Updated: 2022/04/20 17:01:03 by lucas         ########   odam.nl         */
+/*   Created: 2022/04/20 17:01:03 by lsinke        #+#    #+#                 */
+/*   Updated: 2022/04/20 17:01:03 by lsinke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   render.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lucas <lucas@student.codam.nl>               +#+                     */
+/*   By: lsinke <lsinke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/22 11:55:53 by lucas         #+#    #+#                 */
-/*   Updated: 2022/04/22 11:55:53 by lucas         ########   odam.nl         */
+/*   Created: 2022/04/22 11:55:53 by lsinke        #+#    #+#                 */
+/*   Updated: 2022/04/22 11:55:53 by lsinke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	render(t_fdf *data)
 
 	img = data->img;
 	ft_bzero(img->pixels, img->width * img->height * sizeof(uint32_t));
-	int x = 0;
-	for (;x <= data->map.max_x; x++) {
+	for (int x = 0; x <= data->map.max_x; x++) {
 		for (int y = 0; y <= data->map.max_y; y++) {
 			t_point *a = data->map.points[y][x];
 			if (x < data->map.max_x)

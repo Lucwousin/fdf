@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   draw_line.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lucas <lucas@student.codam.nl>               +#+                     */
+/*   By: lsinke <lsinke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/22 13:55:02 by lucas         #+#    #+#                 */
-/*   Updated: 2022/04/22 13:55:02 by lucas         ########   odam.nl         */
+/*   Created: 2022/04/22 13:55:02 by lsinke        #+#    #+#                 */
+/*   Updated: 2022/04/22 13:55:02 by lsinke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

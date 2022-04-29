@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: lucas <lucas@student.codam.nl>               +#+                     */
+/*   By: lsinke <lsinke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/22 12:16:46 by lucas         #+#    #+#                 */
-/*   Updated: 2022/04/22 12:16:46 by lucas         ########   odam.nl         */
+/*   Created: 2022/04/22 12:16:46 by lsinke        #+#    #+#                 */
+/*   Updated: 2022/04/22 12:16:46 by lsinke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
