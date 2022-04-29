@@ -32,7 +32,7 @@ static t_point	*create_point(char *str)
 	}
 	point->z = ft_atoi(strs[0]);
 	if (strs[1])
-		point->colour = get_rgba(ft_hextoui(strs[1]));
+		point->colour = get_rgba((ft_hextoui(strs[1]) << 8u) | 0xFFu);
 	else
 		point->colour = get_rgba(DEFAULT_COLOUR);
 	ft_free_mult((void **) strs);
