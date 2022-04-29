@@ -37,6 +37,10 @@ void	key_event(mlx_key_data_t event, void *param)
 			fdf->cam.roll += 0.05;
 		else if (event.key == MLX_KEY_0)
 			reset_cam(fdf);
+		else if (event.key == MLX_KEY_PAGE_UP)
+			fdf->cam.z_scale += 0.05;
+		else if (event.key == MLX_KEY_PAGE_DOWN)
+			fdf->cam.z_scale -= 0.05;
 		render(fdf);
 	}
 }

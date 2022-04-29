@@ -81,7 +81,7 @@ t_point	project(t_point point, t_cam *cam)
 	subtract(&point, &cam->focal);
 	point.x *= cam->scale;
 	point.y *= cam->scale;
-	point.z *= cam->scale;
+	point.z *= (int)(cam->scale * cam->z_scale);
 	rotate(&point, cam);
 	point.x += cam->offset.x;
 	point.y += cam->offset.y;

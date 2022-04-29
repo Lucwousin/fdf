@@ -65,6 +65,7 @@ typedef struct s_cam {
 	double	yaw;
 	double	roll;
 	int		scale;
+	double	z_scale;
 	t_point	focal;
 	t_point	offset;
 }	t_cam;
