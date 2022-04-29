@@ -12,39 +12,54 @@
 
 #include "fdf.h"
 #include "MLX42/MLX42.h"
-#define	CAM_SETTING_AMOUNT	0.05
+#define CAM_DOUBLE_AMT	0.05
 
-static void	change_cam_setting(double *setting, bool decrement)
+static void	change_cam_d(double *setting, bool decrement)
 {
 	if (decrement)
-		*setting -= CAM_SETTING_AMOUNT;
+		*setting -= CAM_DOUBLE_AMT;
 	else
-		*setting += CAM_SETTING_AMOUNT;
+		*setting += CAM_DOUBLE_AMT;
+}
+
+static void	change_cam_i(int *setting, bool decrement, bool modifier)
+{
+	int32_t	amount;
+
+	amount = 1;
+	if (modifier)
+		amount *= 10;
+	if (decrement)
+		amount *= -1;
+	*setting += amount;
 }
 
 void	key_event(mlx_key_data_t event, void *param)
 {
 	t_fdf	*fdf;
-	keys_t	key;
+	bool	modifier;
 
 	fdf = param;
-	key = event.key;
-	if (event.action == MLX_PRESS || event.action == MLX_REPEAT)
-	{
-		if (key == MLX_KEY_ESCAPE)
-			mlx_close_window(fdf->mlx);
-		else if (key == MLX_KEY_A || key == MLX_KEY_D)
-			change_cam_setting(&fdf->cam.yaw, key == MLX_KEY_A);
-		else if (key == MLX_KEY_W || key == MLX_KEY_S)
-			change_cam_setting(&fdf->cam.pitch, key == MLX_KEY_S);
-		else if (key == MLX_KEY_Q || key == MLX_KEY_E)
-			change_cam_setting(&fdf->cam.roll, key == MLX_KEY_Q);
-		else if (key == MLX_KEY_PAGE_UP || key == MLX_KEY_PAGE_DOWN)
-			change_cam_setting(&fdf->cam.z_scale, key == MLX_KEY_PAGE_DOWN);
-		else if (key == MLX_KEY_0)
-			reset_cam(fdf);
-		render(fdf);
-	}
+	modifier = (event.modifier & MLX_CONTROL) != 0;
+	if (event.action != MLX_PRESS && event.action != MLX_REPEAT)
+		return ;
+	if (event.key == MLX_KEY_ESCAPE)
+		mlx_close_window(fdf->mlx);
+	else if (event.key == MLX_KEY_A || event.key == MLX_KEY_D)
+		change_cam_d(&fdf->cam.yaw, event.key == MLX_KEY_A);
+	else if (event.key == MLX_KEY_W || event.key == MLX_KEY_S)
+		change_cam_d(&fdf->cam.pitch, event.key == MLX_KEY_S);
+	else if (event.key == MLX_KEY_Q || event.key == MLX_KEY_E)
+		change_cam_d(&fdf->cam.roll, event.key == MLX_KEY_Q);
+	else if (event.key == MLX_KEY_PAGE_UP || event.key == MLX_KEY_PAGE_DOWN)
+		change_cam_d(&fdf->cam.z_scale, event.key == MLX_KEY_PAGE_DOWN);
+	else if (event.key == MLX_KEY_LEFT || event.key == MLX_KEY_RIGHT)
+		change_cam_i(&fdf->cam.offset.x, event.key == MLX_KEY_LEFT, modifier);
+	else if (event.key == MLX_KEY_UP || event.key == MLX_KEY_DOWN)
+		change_cam_i(&fdf->cam.offset.y, event.key == MLX_KEY_UP, modifier);
+	else if (event.key == MLX_KEY_0)
+		reset_cam(fdf);
+	render(fdf);
 }
 
 void	scroll_event(double xdelta, double ydelta, void *param)
