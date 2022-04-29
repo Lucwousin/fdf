@@ -35,15 +35,15 @@ typedef struct s_hsva {
 }	t_hsva;
 
 typedef struct s_point {
-	int		x;
-	int		y;
-	int		z;
+	int32_t	x;
+	int32_t	y;
+	int32_t	z;
 	t_rgba	colour;
 }	t_point;
 
 typedef struct s_line {
-	int			x;
-	int			y;
+	int32_t		x;
+	int32_t		y;
 	uint32_t	dx;
 	uint32_t	dy;
 	int8_t		x_step;
@@ -53,18 +53,18 @@ typedef struct s_line {
 }	t_line;
 
 typedef struct s_map {
-	t_point	***points;
-	int		max_x;
-	int		max_y;
-	int		max_z;
-	int		min_z;
+	t_point		***points;
+	uint32_t	max_x;
+	uint32_t	max_y;
+	int32_t		max_z;
+	int32_t		min_z;
 }	t_map;
 
 typedef struct s_cam {
 	double	pitch;
 	double	yaw;
 	double	roll;
-	int		scale;
+	int32_t	scale;
 	double	z_scale;
 	t_point	focal;
 	t_point	offset;

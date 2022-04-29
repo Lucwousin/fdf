@@ -22,7 +22,7 @@ void	subtract(t_point *a, t_point *b)
 
 void	cleanup_map(t_map *map)
 {
-	int	i;
+	uint32_t	i;
 
 	i = 0;
 	while (map->points[i])

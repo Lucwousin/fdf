@@ -68,8 +68,8 @@ static t_point	***parse_fd(int fd, int i)
 
 static bool	init_map_data(t_map *map)
 {
-	int	x;
-	int	y;
+	uint32_t	x;
+	uint32_t	y;
 
 	y = 0;
 	map->min_z = INT32_MAX;

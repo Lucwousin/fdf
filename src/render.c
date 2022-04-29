@@ -35,8 +35,8 @@ void	render(t_fdf *data)
 
 	img = data->img;
 	ft_bzero(img->pixels, img->width * img->height * sizeof(uint32_t));
-	for (int x = 0; x <= data->map.max_x; x++) {
-		for (int y = 0; y <= data->map.max_y; y++) {
+	for (uint32_t x = 0; x <= data->map.max_x; x++) {
+		for (uint32_t y = 0; y <= data->map.max_y; y++) {
 			t_point *a = data->map.points[y][x];
 			if (x < data->map.max_x)
 				draw_line(img, project(*a, &data->cam), project(*data->map.points[y][x + 1], &data->cam));

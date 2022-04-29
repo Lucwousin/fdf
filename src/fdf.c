@@ -54,8 +54,8 @@ void	reset_cam(t_fdf *data)
 	cam->pitch = 0;
 	cam->yaw = 0;
 	cam->roll = 0;
-	cam->offset.x = (int) data->img->width / 2;
-	cam->offset.y = (int) data->img->height / 2;
+	cam->offset.x = (int32_t)(data->img->width / 2);
+	cam->offset.y = (int32_t)(data->img->height / 2);
 }
 
 int	main(int argc, char **argv)

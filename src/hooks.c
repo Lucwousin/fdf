@@ -22,7 +22,7 @@ static void	change_cam_d(double *setting, bool decrement)
 		*setting += CAM_DOUBLE_AMT;
 }
 
-static void	change_cam_i(int *setting, bool decrement, bool modifier)
+static void	change_cam_i(int32_t *setting, bool decrement, bool modifier)
 {
 	int32_t	amount;
 
@@ -65,7 +65,7 @@ void	key_event(mlx_key_data_t event, void *param)
 void	scroll_event(double xdelta, double ydelta, void *param)
 {
 	t_fdf	*fdf;
-	int		zoom_amt;
+	int32_t	zoom_amt;
 
 	(void) xdelta;
 	fdf = param;

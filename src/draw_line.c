@@ -15,8 +15,8 @@
 
 static bool	in_bounds(mlx_image_t *img, t_line *line)
 {
-	int	x;
-	int	y;
+	int32_t	x;
+	int32_t	y;
 
 	x = line->x;
 	y = line->y;
@@ -92,7 +92,7 @@ t_line	get_line_info(t_point a, t_point b)
 void	draw_line(mlx_image_t *img, t_point a, t_point b)
 {
 	t_line	line;
-	int		error;
+	int32_t	error;
 
 	line = get_line_info(a, b);
 	error = 2 * (line.dx - line.dy);

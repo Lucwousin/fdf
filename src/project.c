@@ -19,15 +19,15 @@ static void	rot_yaw(t_point *point, double yaw)
 {
 	double	cosine;
 	double	sine;
-	int		x;
-	int		z;
+	int32_t	x;
+	int32_t	z;
 
 	cosine = cos(yaw);
 	sine = sin(yaw);
 	x = point->x;
 	z = point->z;
-	point->x = (int)round(x * cosine + z * sine);
-	point->z = (int)round(z * cosine - x * sine);
+	point->x = (int32_t)round(x * cosine + z * sine);
+	point->z = (int32_t)round(z * cosine - x * sine);
 }
 
 /**
@@ -37,15 +37,15 @@ static void	rot_pitch(t_point *point, double pitch)
 {
 	double	cosine;
 	double	sine;
-	int		y;
-	int		z;
+	int32_t	y;
+	int32_t	z;
 
 	cosine = cos(pitch);
 	sine = sin(pitch);
 	y = point->y;
 	z = point->z;
-	point->y = (int)round(y * cosine - z * sine);
-	point->z = (int)round(z * cosine + y * sine);
+	point->y = (int32_t)round(y * cosine - z * sine);
+	point->z = (int32_t)round(z * cosine + y * sine);
 }
 
 /**
@@ -55,15 +55,15 @@ static void	rot_roll(t_point *point, double roll)
 {
 	double	cosine;
 	double	sine;
-	int		x;
-	int		y;
+	int32_t	x;
+	int32_t	y;
 
 	x = point->x;
 	y = point->y;
 	cosine = cos(roll);
 	sine = sin(roll);
-	point->x = (int)round(x * cosine - y * sine);
-	point->y = (int)round(y * cosine + x * sine);
+	point->x = (int32_t)round(x * cosine - y * sine);
+	point->y = (int32_t)round(y * cosine + x * sine);
 }
 
 /**
@@ -88,7 +88,7 @@ t_point	project(t_point point, t_cam *cam)
 	subtract(&point, &cam->focal);
 	point.x *= cam->scale;
 	point.y *= cam->scale;
-	point.z *= (int)(cam->scale * cam->z_scale);
+	point.z *= (int32_t)(cam->scale * cam->z_scale);
 	rotate(&point, cam);
 	point.x += cam->offset.x;
 	point.y += cam->offset.y;
