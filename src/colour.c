@@ -89,6 +89,13 @@ t_hsva	rgba_to_hsva(t_rgba rgb)
 	return (hsv);
 }
 
+/**
+ * Get rgb values from the hsv values (duh).
+ * 
+ * Major is the major rgb value - the one with the highest value.
+ * Minor is the second biggest of the rgb value.
+ * Other is the rgb value that's only dependent on the saturation.
+ */
 static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other)
 {
 	uint8_t	rgb_max;
