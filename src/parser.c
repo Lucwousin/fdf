@@ -59,7 +59,9 @@ static t_point	***parse_fd(int fd, int i)
 	if (!line_points)
 		return (NULL);
 	ret = parse_fd(fd, i + 1);
-	if (ret != NULL)
+	if (ret == NULL)
+		ft_free_mult((void *) line_points);
+	else
 		ret[i] = line_points;
 	return (ret);
 }
