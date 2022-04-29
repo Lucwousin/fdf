@@ -29,6 +29,24 @@ void	draw_test(mlx_image_t *img, t_cam *cam)
 	draw_line(img, origin, z_axis);
 }
 
+void	draw_between(t_fdf *data, t_point a, t_point b)
+{
+	mlx_image_t	*img;
+	
+	img = data->img;
+	a = project(a, &data->cam);
+	b = project(b, &data->cam);
+	if (a.x < 0 && b.x < 0)
+		return ;
+	if ((uint32_t)a.x >= img->width && (uint32_t)b.x >= img->width)
+		return ;
+	if (a.y < 0 && b.y < 0)
+		return ;
+	if ((uint32_t)a.y >= img->height && (uint32_t)b.y >= img->height)
+		return ;
+	draw_line(img, a, b);
+}
+
 void	render(t_fdf *data)
 {
 	mlx_image_t	*img;
@@ -37,11 +55,11 @@ void	render(t_fdf *data)
 	ft_bzero(img->pixels, img->width * img->height * sizeof(uint32_t));
 	for (uint32_t x = 0; x <= data->map.max_x; x++) {
 		for (uint32_t y = 0; y <= data->map.max_y; y++) {
-			t_point *a = data->map.points[y][x];
+			t_point *p = data->map.points[y][x];
 			if (x < data->map.max_x)
-				draw_line(img, project(*a, &data->cam), project(*data->map.points[y][x + 1], &data->cam));
+				draw_between(data, *p, *data->map.points[y][x + 1]);
 			if (y < data->map.max_y)
-				draw_line(img, project(*a, &data->cam), project(*data->map.points[y + 1][x], &data->cam));
+				draw_between(data, *p, *data->map.points[y + 1][x]);
 		}
 	}
 	draw_test(img, &data->cam);
