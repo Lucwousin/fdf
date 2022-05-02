@@ -38,11 +38,11 @@ void	draw_between(t_fdf *data, t_point a, t_point b)
 	b = project(b, &data->cam);
 	if (a.x < 0 && b.x < 0)
 		return ;
-	if ((uint32_t)a.x >= img->width && (uint32_t)b.x >= img->width)
+	if (a.x >= (int32_t)img->width && b.x >= (int32_t)img->width)
 		return ;
 	if (a.y < 0 && b.y < 0)
 		return ;
-	if ((uint32_t)a.y >= img->height && (uint32_t)b.y >= img->height)
+	if (a.y >= (int32_t)img->height && b.y >= (int32_t)img->height)
 		return ;
 	draw_line(img, a, b);
 }
