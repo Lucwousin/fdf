@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+#TODO: rename archive to executable, printf! add cflags
+
 NAME = fdf
 
 OBJ_DIR = obj/
