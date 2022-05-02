@@ -119,7 +119,7 @@ t_rgba	hsva_to_rgba(t_hsva hsv)
 	if (hsv.v == 0.0)
 		return (get_rgba(rgb.rgba.a));
 	section = hsv.h / DEG_60;
-	if (section >= 0 && section < 1)
+	if (section < 1)
 		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.g, &rgb.rgba.b);
 	else if (section >= 1 && section < 2)
 		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.r, &rgb.rgba.b);
