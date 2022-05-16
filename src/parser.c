@@ -47,12 +47,7 @@ static t_point	***parse_fd(int fd, int i)
 
 	line = get_next_line(fd);
 	if (!line)
-	{
-		ret = malloc((i + 1) * sizeof(t_point **));
-		if (ret)
-			ret[i] = NULL;
-		return (ret);
-	}
+		return (ft_calloc(i + 1, sizeof(t_point **)));
 	line_points = (t_point **) ft_split_map(line, ' ',
 			(void *(*)(char *)) create_point, free);
 	free(line);
