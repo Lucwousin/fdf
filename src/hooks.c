@@ -87,6 +87,8 @@ void	resize_event(int32_t width, int32_t height, void *param)
 	t_fdf	*fdf;
 
 	fdf = param;
+	fdf->cam.offset.x += (width - (int32_t) fdf->img->width) / 2;
+	fdf->cam.offset.y += (height - (int32_t) fdf->img->height) / 2;
 	mlx_resize_image(fdf->img, width, height);
 	render(fdf);
 }
