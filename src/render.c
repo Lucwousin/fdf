@@ -12,7 +12,6 @@
 
 #include "fdf.h"
 #include "libft.h"
-#include <math.h>
 
 void	draw_test(mlx_image_t *img, t_cam *cam)
 {

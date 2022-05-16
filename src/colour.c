@@ -102,12 +102,12 @@ static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other)
 	uint8_t	rgb_min;
 	uint8_t	rgb_delta;
 
-	rgb_max = hsv.v * 0xFF;
-	rgb_delta = hsv.s * rgb_max;
+	rgb_max = (uint8_t)(hsv.v * 0xFF);
+	rgb_delta = (uint8_t)(hsv.s * rgb_max);
 	rgb_min = rgb_max - rgb_delta;
 	*major = rgb_max;
 	*other = rgb_min;
-	*minor = rgb_min + fmod(hsv.h, DEG_60) * rgb_delta;
+	*minor = (uint8_t)(rgb_min + fmod(hsv.h, DEG_60) * rgb_delta);
 }
 
 t_rgba	hsva_to_rgba(t_hsva hsv)
@@ -118,7 +118,7 @@ t_rgba	hsva_to_rgba(t_hsva hsv)
 	rgb.rgba.a = hsv.a;
 	if (hsv.v == 0.0)
 		return (get_rgba(rgb.rgba.a));
-	section = hsv.h / DEG_60;
+	section = (uint8_t)(hsv.h / DEG_60);
 	if (section < 1)
 		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.g, &rgb.rgba.b);
 	else if (section >= 1 && section < 2)

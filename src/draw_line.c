@@ -21,7 +21,7 @@ static bool	in_bounds(mlx_image_t *img, t_line *line)
 	x = line->x;
 	y = line->y;
 	if (x >= 0 && y >= 0)
-		if ((uint32_t) x < img->width && (uint32_t) y < img->height)
+		if (x < (int32_t) img->width && y < (int32_t) img->height)
 			return (true);
 	return (false);
 }
@@ -71,8 +71,8 @@ t_line	get_line_info(t_point a, t_point b)
 {
 	t_line	line;
 
-	line.dx = ft_abs(b.x - a.x);
-	line.dy = ft_abs(b.y - a.y);
+	line.dx = abs(b.x - a.x);
+	line.dy = abs(b.y - a.y);
 	if (a.x < b.x)
 		line.x_step = 1;
 	else
@@ -95,7 +95,7 @@ void	draw_line(mlx_image_t *img, t_point a, t_point b)
 	int32_t	error;
 
 	line = get_line_info(a, b);
-	error = 2 * (line.dx - line.dy);
+	error = 2 * (int32_t) line.dx - (int32_t) line.dy;
 	while (true)
 	{
 		if (in_bounds(img, &line))
@@ -105,12 +105,12 @@ void	draw_line(mlx_image_t *img, t_point a, t_point b)
 		if (error >= 0)
 		{
 			line.x += line.x_step;
-			error -= 2 * line.dy;
+			error -= 2 * (int32_t) line.dy;
 		}
 		if (error < 0)
 		{
 			line.y += line.y_step;
-			error += 2 * line.dx;
+			error += 2 * (int32_t) line.dx;
 		}
 	}
 }
