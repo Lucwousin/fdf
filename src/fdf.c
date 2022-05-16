@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "ft_printf.h"
 #include "libft.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 static void	cleanup(t_fdf *data)
 {
@@ -29,7 +29,7 @@ static void	cleanup(t_fdf *data)
 
 static void	error(t_fdf *data, const char *reason)
 {
-	printf("%s\n", reason);
+	ft_printf("%s\n", reason);
 	cleanup(data);
 	exit(EXIT_FAILURE);
 }
@@ -48,8 +48,8 @@ void	reset_cam(t_fdf *data)
 	cam = &data->cam;
 	cam->scale = 50;
 	cam->z_scale = 1.0;
-	cam->focal.x = data->map.max_x / 2;
-	cam->focal.y = data->map.max_y / 2;
+	cam->focal.x = (int32_t) data->map.max_x / 2;
+	cam->focal.y = (int32_t) data->map.max_y / 2;
 	cam->focal.z = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
 	cam->pitch = 0;
 	cam->yaw = 0;

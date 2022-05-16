@@ -74,8 +74,8 @@ static bool	init_map_data(t_map *map)
 		x = 0;
 		while (map->points[y][x])
 		{
-			map->points[y][x]->x = x;
-			map->points[y][x]->y = y;
+			map->points[y][x]->x = (int32_t) x;
+			map->points[y][x]->y = (int32_t) y;
 			map->min_z = ft_min(map->points[y][x]->z, map->min_z);
 			map->max_z = ft_max(map->points[y][x]->z, map->max_z);
 			++x;
