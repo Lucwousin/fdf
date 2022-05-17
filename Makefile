@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-#TODO: rename archive to executable, printf! add cflags
-
 NAME = fdf
 
 OBJ_DIR = obj/
@@ -31,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 OBJS_PREFIXED = $(addprefix $(OBJ_DIR), $(OBJS))
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 
 LIBFT = ./libft/
 LIBFT_LIB = $(addprefix $(LIBFT), libft.a)
@@ -62,7 +60,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC_DIR)fdf.h
 
 $(NAME): $(OBJS_PREFIXED)
 	@echo "Compiling main executable"
-	@$(CC) $(OBJS_PREFIXED) $(LIBFT_LIB) $(MLX_LIB) $(MLX_ARG) -lm -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS_PREFIXED) $(LIBFT_LIB) $(MLX_LIB) $(MLX_ARG) -lm -o $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
