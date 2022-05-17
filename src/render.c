@@ -13,22 +13,7 @@
 #include "fdf.h"
 #include "libft.h"
 
-void	draw_test(mlx_image_t *img, t_cam *cam)
-{
-	t_point origin = (t_point){0, 0, 0, get_rgba(0xFFFFFFFF)};
-	t_point x_axis = {1, 0, 0, get_rgba(0xFF0000FF)};
-	t_point y_axis = {0, 1, 0, get_rgba(0x00FF00FF)};
-	t_point z_axis = {0, 0, 1, get_rgba(0x0000FFFF)};
-	origin = project(origin, cam);
-	x_axis = project(x_axis, cam);
-	y_axis = project(y_axis, cam);
-	z_axis = project(z_axis, cam);
-	draw_line(img, origin, x_axis);
-	draw_line(img, origin, y_axis);
-	draw_line(img, origin, z_axis);
-}
-
-void	draw_between(t_fdf *data, t_point a, t_point b)
+static void	draw_between(t_fdf *data, t_point a, t_point b)
 {
 	mlx_image_t	*img;
 
@@ -70,5 +55,4 @@ void	render(t_fdf *data)
 		}
 		++x;
 	}
-	draw_test(img, &data->cam);
 }

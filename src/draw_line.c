@@ -48,7 +48,7 @@ static double	calculate_progress(t_point a, t_point b, t_line *line)
 	}
 }
 
-uint32_t	intrpl_col(t_point a, t_point b, t_line *line)
+static uint32_t	intrpl_col(t_point a, t_point b, t_line *line)
 {
 	double	progress;
 	t_hsva	colour;
@@ -67,7 +67,7 @@ uint32_t	intrpl_col(t_point a, t_point b, t_line *line)
 	return (hsva_to_rgba(colour).colour);
 }
 
-t_line	get_line_info(t_point a, t_point b)
+static t_line	get_line_info(t_point a, t_point b)
 {
 	t_line	line;
 
