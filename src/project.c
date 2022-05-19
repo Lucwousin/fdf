@@ -15,7 +15,7 @@
 /**
  * Rotate vec around the y axis by yaw radians
  */
-static void	rot_yaw(t_vec *vec, double yaw)
+static void	rot_yaw(t_ivec *vec, double yaw)
 {
 	double	cosine;
 	double	sine;
@@ -33,7 +33,7 @@ static void	rot_yaw(t_vec *vec, double yaw)
 /**
  * Rotate vec around the x axis by pitch radians
  */
-static void	rot_pitch(t_vec *vec, double pitch)
+static void	rot_pitch(t_ivec *vec, double pitch)
 {
 	double	cosine;
 	double	sine;
@@ -51,7 +51,7 @@ static void	rot_pitch(t_vec *vec, double pitch)
 /**
  * Rotate vec around the z axis by roll radians 
  */
-static void	rot_roll(t_vec *vec, double roll)
+static void	rot_roll(t_ivec *vec, double roll)
 {
 	double	cosine;
 	double	sine;
@@ -70,7 +70,7 @@ static void	rot_roll(t_vec *vec, double roll)
  * Rotate point according to the cam settings, then rotate some more for
  * a perfect isometric view
  */
-static void	rotate(t_vec *point, t_cam *cam)
+static void	rotate(t_ivec *point, t_cam *cam)
 {
 	rot_yaw(point, cam->yaw);
 	rot_pitch(point, cam->pitch);

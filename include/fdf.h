@@ -34,7 +34,7 @@ typedef struct s_hsva {
 	uint8_t	a;
 }	t_hsva;
 
-typedef int32_t	t_vec __attribute__ ((vector_size (16)));
+typedef int32_t	t_ivec __attribute__ ((vector_size (16)));
 
 typedef enum e_axis {
 	X,
@@ -43,7 +43,7 @@ typedef enum e_axis {
 }	t_axis;
 
 typedef struct s_point {
-	t_vec	vec;
+	t_ivec	vec;
 	t_rgba	colour;
 }	t_point;
 
@@ -72,8 +72,8 @@ typedef struct s_cam {
 	double	roll;
 	int32_t	scale;
 	double	z_scale;
-	t_vec	focal;
-	t_vec	offset;
+	t_ivec	focal;
+	t_ivec	offset;
 }	t_cam;
 
 typedef struct s_fdf {

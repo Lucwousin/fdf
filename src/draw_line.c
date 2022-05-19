@@ -26,7 +26,7 @@ static bool	in_bounds(mlx_image_t *img, t_line *line)
 	return (false);
 }
 
-static double	calculate_progress(t_vec a, t_vec b, t_line *line)
+static double	calculate_progress(t_ivec a, t_ivec b, t_line *line)
 {
 	if (line->dx >= line->dy)
 	{
