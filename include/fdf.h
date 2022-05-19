@@ -15,9 +15,6 @@
 # define WINDOW_WIDTH	1280
 # define WINDOW_HEIGHT	720
 # define DEFAULT_COLOUR	0xFFFFFFFF
-# define X 0
-# define Y 1
-# define Z 2
 # include "MLX42/MLX42.h"
 
 typedef union u_rgba {
@@ -38,6 +35,12 @@ typedef struct s_hsva {
 }	t_hsva;
 
 typedef int32_t	t_vec __attribute__ ((vector_size (16)));
+
+typedef enum e_axis {
+	X,
+	Y,
+	Z
+}	t_axis;
 
 typedef struct s_point {
 	t_vec	vec;

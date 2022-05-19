@@ -22,16 +22,16 @@ static void	change_cam_d(double *setting, bool decrement)
 		*setting += CAM_DOUBLE_AMT;
 }
 
-static void	translate_cam(t_cam *cam, int32_t i, bool decrement, bool modifier)
+static void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier)
 {
 	int32_t	amount;
 
 	amount = 1;
 	if (modifier)
 		amount *= 10;
-	if (decrement)
+	if (dec)
 		amount *= -1;
-	cam->offset[i] += amount;
+	cam->offset[axis] += amount;
 }
 
 void	key_event(mlx_key_data_t event, void *param)
