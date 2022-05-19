@@ -13,13 +13,6 @@
 #include "fdf.h"
 #include "libft.h"
 
-void	subtract(t_point *a, t_point *b)
-{
-	a->x -= b->x;
-	a->y -= b->y;
-	a->z -= b->z;
-}
-
 void	cleanup_map(t_map *map)
 {
 	uint32_t	i;

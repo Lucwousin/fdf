@@ -48,14 +48,15 @@ void	reset_cam(t_fdf *data)
 	cam = &data->cam;
 	cam->scale = 50;
 	cam->z_scale = 1.0;
-	cam->focal.x = (int32_t) data->map.max_x / 2;
-	cam->focal.y = (int32_t) data->map.max_y / 2;
-	cam->focal.z = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
 	cam->pitch = 0;
 	cam->yaw = 0;
 	cam->roll = 0;
-	cam->offset.x = (int32_t)(data->img->width / 2);
-	cam->offset.y = (int32_t)(data->img->height / 2);
+	cam->focal[X] = (int32_t) data->map.max_x / 2;
+	cam->focal[Y] = (int32_t) data->map.max_y / 2;
+	cam->focal[Z] = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
+	cam->offset[X] = (int32_t)(data->img->width / 2);
+	cam->offset[Y] = (int32_t)(data->img->height / 2);
+	cam->offset[Z] = 0;
 }
 
 int	main(int argc, char **argv)

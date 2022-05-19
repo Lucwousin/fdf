@@ -15,6 +15,9 @@
 # define WINDOW_WIDTH	1280
 # define WINDOW_HEIGHT	720
 # define DEFAULT_COLOUR	0xFFFFFFFF
+# define X 0
+# define Y 1
+# define Z 2
 # include "MLX42/MLX42.h"
 
 typedef union u_rgba {
@@ -34,10 +37,10 @@ typedef struct s_hsva {
 	uint8_t	a;
 }	t_hsva;
 
+typedef int32_t	t_vec __attribute__ ((vector_size (16)));
+
 typedef struct s_point {
-	int32_t	x;
-	int32_t	y;
-	int32_t	z;
+	t_vec	vec;
 	t_rgba	colour;
 }	t_point;
 
@@ -66,8 +69,8 @@ typedef struct s_cam {
 	double	roll;
 	int32_t	scale;
 	double	z_scale;
-	t_point	focal;
-	t_point	offset;
+	t_vec	focal;
+	t_vec	offset;
 }	t_cam;
 
 typedef struct s_fdf {
@@ -88,8 +91,6 @@ t_rgba	get_rgba(uint32_t hex);
 t_hsva	rgba_to_hsva(t_rgba rgb);
 t_rgba	hsva_to_rgba(t_hsva hsv);
 void	normalize_colours(t_hsva *a, t_hsva *b);
-
-void	subtract(t_point *a, t_point *b);
 
 void	key_event(mlx_key_data_t event, void *param);
 void	scroll_event(double xdelta, double ydelta, void *param);

@@ -20,13 +20,13 @@ static void	draw_between(t_fdf *data, t_point a, t_point b)
 	img = data->img;
 	a = project(a, &data->cam);
 	b = project(b, &data->cam);
-	if (a.x < 0 && b.x < 0)
+	if (a.vec[X] < 0 && b.vec[X] < 0)
 		return ;
-	if (a.x >= (int32_t)img->width && b.x >= (int32_t)img->width)
+	if (a.vec[X] >= (int32_t)img->width && b.vec[X] >= (int32_t)img->width)
 		return ;
-	if (a.y < 0 && b.y < 0)
+	if (a.vec[Y] < 0 && b.vec[Y] < 0)
 		return ;
-	if (a.y >= (int32_t)img->height && b.y >= (int32_t)img->height)
+	if (a.vec[Y] >= (int32_t)img->height && b.vec[Y] >= (int32_t)img->height)
 		return ;
 	draw_line(img, a, b);
 }

@@ -13,9 +13,9 @@
 #include <math.h>
 
 /**
- * Rotate point around the y axis by yaw radians
+ * Rotate vec around the y axis by yaw radians
  */
-static void	rot_yaw(t_point *point, double yaw)
+static void	rot_yaw(t_vec *vec, double yaw)
 {
 	double	cosine;
 	double	sine;
@@ -24,16 +24,16 @@ static void	rot_yaw(t_point *point, double yaw)
 
 	cosine = cos(yaw);
 	sine = sin(yaw);
-	x = point->x;
-	z = point->z;
-	point->x = (int32_t)round(x * cosine + z * sine);
-	point->z = (int32_t)round(z * cosine - x * sine);
+	x = (*vec)[X];
+	z = (*vec)[Z];
+	(*vec)[X] = (int32_t)round(x * cosine + z * sine);
+	(*vec)[Z] = (int32_t)round(z * cosine - x * sine);
 }
 
 /**
- * Rotate point around the x axis by pitch radians
+ * Rotate vec around the x axis by pitch radians
  */
-static void	rot_pitch(t_point *point, double pitch)
+static void	rot_pitch(t_vec *vec, double pitch)
 {
 	double	cosine;
 	double	sine;
@@ -42,35 +42,35 @@ static void	rot_pitch(t_point *point, double pitch)
 
 	cosine = cos(pitch);
 	sine = sin(pitch);
-	y = point->y;
-	z = point->z;
-	point->y = (int32_t)round(y * cosine - z * sine);
-	point->z = (int32_t)round(z * cosine + y * sine);
+	y = (*vec)[Y];
+	z = (*vec)[Z];
+	(*vec)[Y] = (int32_t)round(y * cosine - z * sine);
+	(*vec)[Z] = (int32_t)round(z * cosine + y * sine);
 }
 
 /**
- * Rotate point around the z axis by roll radians 
+ * Rotate vec around the z axis by roll radians 
  */
-static void	rot_roll(t_point *point, double roll)
+static void	rot_roll(t_vec *vec, double roll)
 {
 	double	cosine;
 	double	sine;
 	int32_t	x;
 	int32_t	y;
 
-	x = point->x;
-	y = point->y;
+	x = (*vec)[X];
+	y = (*vec)[Y];
 	cosine = cos(roll);
 	sine = sin(roll);
-	point->x = (int32_t)round(x * cosine - y * sine);
-	point->y = (int32_t)round(y * cosine + x * sine);
+	(*vec)[X] = (int32_t)round(x * cosine - y * sine);
+	(*vec)[Y] = (int32_t)round(y * cosine + x * sine);
 }
 
 /**
  * Rotate point according to the cam settings, then rotate some more for
  * a perfect isometric view
  */
-static void	rotate(t_point *point, t_cam *cam)
+static void	rotate(t_vec *point, t_cam *cam)
 {
 	rot_yaw(point, cam->yaw);
 	rot_pitch(point, cam->pitch);
@@ -85,12 +85,10 @@ static void	rotate(t_point *point, t_cam *cam)
  */
 t_point	project(t_point point, t_cam *cam)
 {
-	subtract(&point, &cam->focal);
-	point.x *= cam->scale;
-	point.y *= cam->scale;
-	point.z *= (int32_t)(cam->scale * cam->z_scale);
-	rotate(&point, cam);
-	point.x += cam->offset.x;
-	point.y += cam->offset.y;
+	point.vec -= cam->focal;
+	point.vec *= cam->scale;
+	point.vec[Z] = (int32_t)(point.vec[Z] * cam->z_scale);
+	rotate(&point.vec, cam);
+	point.vec += cam->offset;
 	return (point);
 }

@@ -30,7 +30,7 @@ static t_point	*create_point(char *str)
 		free(point);
 		return (NULL);
 	}
-	point->z = ft_atoi(strs[0]);
+	point->vec[Z] = ft_atoi(strs[0]);
 	if (strs[1])
 		point->colour = get_rgba((ft_hextoui(strs[1]) << 8u) | 0xFFu);
 	else
@@ -74,10 +74,10 @@ static bool	init_map_data(t_map *map)
 		x = 0;
 		while (map->points[y][x])
 		{
-			map->points[y][x]->x = (int32_t) x;
-			map->points[y][x]->y = (int32_t) y;
-			map->min_z = ft_min(map->points[y][x]->z, map->min_z);
-			map->max_z = ft_max(map->points[y][x]->z, map->max_z);
+			map->points[y][x]->vec[X] = (int32_t) x;
+			map->points[y][x]->vec[Y] = (int32_t) y;
+			map->min_z = ft_min(map->points[y][x]->vec[Z], map->min_z);
+			map->max_z = ft_max(map->points[y][x]->vec[Z], map->max_z);
 			++x;
 		}
 		if (map->max_x == 0)

@@ -22,7 +22,7 @@ static void	change_cam_d(double *setting, bool decrement)
 		*setting += CAM_DOUBLE_AMT;
 }
 
-static void	change_cam_i(int32_t *setting, bool decrement, bool modifier)
+static void	translate_cam(t_cam *cam, int32_t i, bool decrement, bool modifier)
 {
 	int32_t	amount;
 
@@ -31,7 +31,7 @@ static void	change_cam_i(int32_t *setting, bool decrement, bool modifier)
 		amount *= 10;
 	if (decrement)
 		amount *= -1;
-	*setting += amount;
+	cam->offset[i] += amount;
 }
 
 void	key_event(mlx_key_data_t event, void *param)
@@ -54,9 +54,9 @@ void	key_event(mlx_key_data_t event, void *param)
 	else if (event.key == MLX_KEY_PAGE_UP || event.key == MLX_KEY_PAGE_DOWN)
 		change_cam_d(&fdf->cam.z_scale, event.key == MLX_KEY_PAGE_DOWN);
 	else if (event.key == MLX_KEY_LEFT || event.key == MLX_KEY_RIGHT)
-		change_cam_i(&fdf->cam.offset.x, event.key == MLX_KEY_LEFT, modifier);
+		translate_cam(&fdf->cam, X, event.key == MLX_KEY_LEFT, modifier);
 	else if (event.key == MLX_KEY_UP || event.key == MLX_KEY_DOWN)
-		change_cam_i(&fdf->cam.offset.y, event.key == MLX_KEY_UP, modifier);
+		translate_cam(&fdf->cam, Y, event.key == MLX_KEY_UP, modifier);
 	else if (event.key == MLX_KEY_0)
 		reset_cam(fdf);
 	render(fdf);
@@ -87,8 +87,8 @@ void	resize_event(int32_t width, int32_t height, void *param)
 	t_fdf	*fdf;
 
 	fdf = param;
-	fdf->cam.offset.x += (width - (int32_t) fdf->img->width) / 2;
-	fdf->cam.offset.y += (height - (int32_t) fdf->img->height) / 2;
+	fdf->cam.offset[X] += (width - (int32_t) fdf->img->width) / 2;
+	fdf->cam.offset[Y] += (height - (int32_t) fdf->img->height) / 2;
 	mlx_resize_image(fdf->img, width, height);
 	render(fdf);
 }

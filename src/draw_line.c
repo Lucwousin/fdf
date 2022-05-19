@@ -26,25 +26,25 @@ static bool	in_bounds(mlx_image_t *img, t_line *line)
 	return (false);
 }
 
-static double	calculate_progress(t_point a, t_point b, t_line *line)
+static double	calculate_progress(t_vec a, t_vec b, t_line *line)
 {
 	if (line->dx >= line->dy)
 	{
-		if (line->x == a.x)
+		if (line->x == a[X])
 			return (0.0);
-		else if (line->x == b.x)
+		else if (line->x == b[X])
 			return (1.0);
 		else
-			return (abs(line->x - a.x) / (double)(line->dx));
+			return (abs(line->x - a[X]) / (double)(line->dx));
 	}
 	else
 	{
-		if (line->y == a.y)
+		if (line->y == a[Y])
 			return (0.0);
-		else if (line->y == b.y)
+		else if (line->y == b[Y])
 			return (1.0);
 		else
-			return (abs(line->y - a.y) / (double)(line->dy));
+			return (abs(line->y - a[Y]) / (double)(line->dy));
 	}
 }
 
@@ -55,7 +55,7 @@ static uint32_t	intrpl_col(t_point a, t_point b, t_line *line)
 
 	if (a.colour.colour == b.colour.colour)
 		return (a.colour.colour);
-	progress = calculate_progress(a, b, line);
+	progress = calculate_progress(a.vec, b.vec, line);
 	if (progress == 0.0)
 		return (a.colour.colour);
 	else if (progress == 1.0)
@@ -71,18 +71,18 @@ static t_line	get_line_info(t_point a, t_point b)
 {
 	t_line	line;
 
-	line.dx = abs(b.x - a.x);
-	line.dy = abs(b.y - a.y);
-	if (a.x < b.x)
+	line.dx = abs(b.vec[X] - a.vec[X]);
+	line.dy = abs(b.vec[Y] - a.vec[Y]);
+	if (a.vec[X] < b.vec[X])
 		line.x_step = 1;
 	else
 		line.x_step = -1;
-	if (a.y < b.y)
+	if (a.vec[Y] < b.vec[Y])
 		line.y_step = 1;
 	else
 		line.y_step = -1;
-	line.x = a.x;
-	line.y = a.y;
+	line.x = a.vec[X];
+	line.y = a.vec[Y];
 	line.colour_a = rgba_to_hsva(a.colour);
 	line.colour_b = rgba_to_hsva(b.colour);
 	normalize_colours(&line.colour_a, &line.colour_b);
@@ -100,7 +100,7 @@ void	draw_line(mlx_image_t *img, t_point a, t_point b)
 	{
 		if (in_bounds(img, &line))
 			mlx_put_pixel(img, line.x, line.y, intrpl_col(a, b, &line));
-		if (line.x == b.x && line.y == b.y)
+		if (line.x == b.vec[X] && line.y == b.vec[Y])
 			return ;
 		if (error >= 0)
 		{
