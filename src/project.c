@@ -72,9 +72,9 @@ static void	rot_roll(t_ivec *vec, double roll)
  */
 static void	rotate(t_ivec *point, t_cam *cam)
 {
-	rot_yaw(point, cam->yaw);
-	rot_pitch(point, cam->pitch);
-	rot_roll(point, cam->roll);
+	rot_yaw(point, cam->angles[YAW]);
+	rot_pitch(point, cam->angles[PITCH]);
+	rot_roll(point, cam->angles[ROLL]);
 	rot_yaw(point, -M_PI_4);
 	rot_pitch(point, atan(M_SQRT1_2));
 	rot_roll(point, M_PI / 3);

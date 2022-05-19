@@ -16,7 +16,8 @@ OBJ_DIR = obj/
 SRC_DIR = src/
 INC_DIR = include/
 
-SRCS = colour.c\
+SRCS = cam.c\
+	   colour.c\
 	   fdf.c\
 	   draw_line.c\
 	   hooks.c\

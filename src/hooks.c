@@ -14,26 +14,6 @@
 #include "MLX42/MLX42.h"
 #define CAM_DOUBLE_AMT	0.05
 
-static void	change_cam_d(double *setting, bool decrement)
-{
-	if (decrement)
-		*setting -= CAM_DOUBLE_AMT;
-	else
-		*setting += CAM_DOUBLE_AMT;
-}
-
-static void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier)
-{
-	int32_t	amount;
-
-	amount = 1;
-	if (modifier)
-		amount *= 10;
-	if (dec)
-		amount *= -1;
-	cam->offset[axis] += amount;
-}
-
 void	key_event(mlx_key_data_t event, void *param)
 {
 	t_fdf	*fdf;
@@ -46,13 +26,13 @@ void	key_event(mlx_key_data_t event, void *param)
 	if (event.key == MLX_KEY_ESCAPE)
 		mlx_close_window(fdf->mlx);
 	else if (event.key == MLX_KEY_A || event.key == MLX_KEY_D)
-		change_cam_d(&fdf->cam.yaw, event.key == MLX_KEY_A);
+		rotate_cam(&fdf->cam, YAW, event.key == MLX_KEY_A, modifier);
 	else if (event.key == MLX_KEY_W || event.key == MLX_KEY_S)
-		change_cam_d(&fdf->cam.pitch, event.key == MLX_KEY_S);
+		rotate_cam(&fdf->cam, PITCH, event.key == MLX_KEY_A, modifier);
 	else if (event.key == MLX_KEY_Q || event.key == MLX_KEY_E)
-		change_cam_d(&fdf->cam.roll, event.key == MLX_KEY_Q);
+		rotate_cam(&fdf->cam, ROLL, event.key == MLX_KEY_A, modifier);
 	else if (event.key == MLX_KEY_PAGE_UP || event.key == MLX_KEY_PAGE_DOWN)
-		change_cam_d(&fdf->cam.z_scale, event.key == MLX_KEY_PAGE_DOWN);
+		zscale_cam(&fdf->cam, event.key == MLX_KEY_PAGE_DOWN, modifier);
 	else if (event.key == MLX_KEY_LEFT || event.key == MLX_KEY_RIGHT)
 		translate_cam(&fdf->cam, X, event.key == MLX_KEY_LEFT, modifier);
 	else if (event.key == MLX_KEY_UP || event.key == MLX_KEY_DOWN)

@@ -66,12 +66,19 @@ typedef struct s_map {
 	int32_t		min_z;
 }	t_map;
 
+typedef double	t_dvec __attribute__ ((vector_size (16)));
+typedef t_dvec	t_dmat[3];
+
+typedef enum e_angle {
+	YAW,
+	PITCH,
+	ROLL
+}	t_angle;
+
 typedef struct s_cam {
-	double	pitch;
-	double	yaw;
-	double	roll;
 	int32_t	scale;
 	double	z_scale;
+	t_dvec	angles;
 	t_ivec	focal;
 	t_ivec	offset;
 }	t_cam;
@@ -88,7 +95,11 @@ bool	parse(t_map *map, const char *file);
 void	render(t_fdf *data);
 t_point	project(t_point point, t_cam *cam);
 void	draw_line(mlx_image_t *img, t_point a, t_point b);
+
 void	reset_cam(t_fdf *data);
+void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier);
+void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier);
+void	zscale_cam(t_cam *cam, bool dec, bool modifier);
 
 t_rgba	get_rgba(uint32_t hex);
 t_hsva	rgba_to_hsva(t_rgba rgb);
