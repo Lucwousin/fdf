@@ -31,15 +31,19 @@ static void	draw_between(t_fdf *data, t_point a, t_point b)
 	draw_line(img, a, b);
 }
 
+static void	clear_image(mlx_image_t *img)
+{
+	ft_bzero(img->pixels, img->width * img->height * sizeof(uint32_t));
+}
+
 void	render(t_fdf *data)
 {
-	mlx_image_t	*img;
 	t_point		point;
 	uint32_t	x;
 	uint32_t	y;
 
-	img = data->img;
-	ft_bzero(img->pixels, img->width * img->height * sizeof(uint32_t));
+	clear_image(data->img);
+	update_rotation(&data->cam);
 	x = 0;
 	while (x <= data->map.max_x)
 	{

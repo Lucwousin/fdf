@@ -10,74 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "fdf.h"
-#include <math.h>
-
-/**
- * Rotate vec around the y axis by yaw radians
- */
-static void	rot_yaw(t_ivec *vec, double yaw)
-{
-	double	cosine;
-	double	sine;
-	int32_t	x;
-	int32_t	z;
-
-	cosine = cos(yaw);
-	sine = sin(yaw);
-	x = (*vec)[X];
-	z = (*vec)[Z];
-	(*vec)[X] = (int32_t)round(x * cosine + z * sine);
-	(*vec)[Z] = (int32_t)round(z * cosine - x * sine);
-}
-
-/**
- * Rotate vec around the x axis by pitch radians
- */
-static void	rot_pitch(t_ivec *vec, double pitch)
-{
-	double	cosine;
-	double	sine;
-	int32_t	y;
-	int32_t	z;
-
-	cosine = cos(pitch);
-	sine = sin(pitch);
-	y = (*vec)[Y];
-	z = (*vec)[Z];
-	(*vec)[Y] = (int32_t)round(y * cosine - z * sine);
-	(*vec)[Z] = (int32_t)round(z * cosine + y * sine);
-}
-
-/**
- * Rotate vec around the z axis by roll radians 
- */
-static void	rot_roll(t_ivec *vec, double roll)
-{
-	double	cosine;
-	double	sine;
-	int32_t	x;
-	int32_t	y;
-
-	x = (*vec)[X];
-	y = (*vec)[Y];
-	cosine = cos(roll);
-	sine = sin(roll);
-	(*vec)[X] = (int32_t)round(x * cosine - y * sine);
-	(*vec)[Y] = (int32_t)round(y * cosine + x * sine);
-}
 
 /**
  * Rotate point according to the cam settings, then rotate some more for
  * a perfect isometric view
  */
-static void	rotate(t_ivec *point, t_cam *cam)
+static void	rotate(t_ivec *point, t_dmat mat)
 {
-	rot_yaw(point, cam->angles[YAW]);
-	rot_pitch(point, cam->angles[PITCH]);
-	rot_roll(point, cam->angles[ROLL]);
-	rot_yaw(point, -M_PI_4);
-	rot_pitch(point, atan(M_SQRT1_2));
-	rot_roll(point, M_PI / 3);
+	t_dvec	vec;
+
+	vec = ivec_to_dvec(*point);
+	vec = mult_vec(mat, vec);
+	*point = dvec_to_ivec(vec);
+	//rot_yaw(point, -M_PI_4);
+	//rot_pitch(point, atan(M_SQRT1_2));
+	//rot_roll(point, M_PI / 3);
 }
 
 /**
@@ -88,7 +35,7 @@ t_point	project(t_point point, t_cam *cam)
 	point.vec -= cam->focal;
 	point.vec *= cam->scale;
 	point.vec[Z] = (int32_t)(point.vec[Z] * cam->z_scale);
-	rotate(&point.vec, cam);
+	rotate(&point.vec, cam->matrix);
 	point.vec += cam->offset;
 	return (point);
 }

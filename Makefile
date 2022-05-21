@@ -21,9 +21,11 @@ SRCS = cam.c\
 	   fdf.c\
 	   draw_line.c\
 	   hooks.c\
+	   matrix.c\
 	   parser.c\
 	   project.c\
 	   render.c\
+	   rotate.c\
 	   utils.c
 
 OBJS = $(SRCS:.c=.o)
@@ -44,6 +46,7 @@ ifeq ($(shell uname -s), Darwin)
 	MLX_ARG = -lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
 else
 	MLX_ARG = -ldl -lglfw
+	CFLAGS += -mavx
 endif
 
 all: libft libmlx $(NAME)
