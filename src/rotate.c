@@ -62,13 +62,13 @@ t_dvec	init_iso_q(void)
 void	update_rotation(t_cam *cam)
 {
 	const t_dvec	uvs[3] = {
-			{1, 0, 0, 0},
-			{0, 1, 0, 0},
-			{0, 0, 1, 0}
+	{1, 0, 0, 0},
+	{0, 1, 0, 0},
+	{0, 0, 1, 0}
 	};
-	t_dvec	quat;
-	t_dvec	delta_angles;
-	t_angle	a;
+	t_dvec			tmp_quaternion;
+	t_dvec			delta_angles;
+	t_angle			a;
 
 	delta_angles = cam->old_angles - cam->angles;
 	a = PITCH;
@@ -76,8 +76,8 @@ void	update_rotation(t_cam *cam)
 	{
 		if (delta_angles[a] != 0)
 		{
-			quat = new_quat(uvs[a], delta_angles[a]);
-			cam->rot_q = mult_quaternion(quat, cam->rot_q);
+			tmp_quaternion = new_quat(uvs[a], delta_angles[a]);
+			cam->rot_q = mult_quaternion(tmp_quaternion, cam->rot_q);
 		}
 		++a;
 	}

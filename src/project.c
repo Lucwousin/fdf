@@ -22,9 +22,6 @@ static void	rotate(t_ivec *point, t_dmat mat)
 	vec = ivec_to_dvec(*point);
 	vec = mult_vec(mat, vec);
 	*point = dvec_to_ivec(vec);
-	//rot_yaw(point, -M_PI_4);
-	//rot_pitch(point, atan(M_SQRT1_2));
-	//rot_roll(point, M_PI / 3);
 }
 
 /**

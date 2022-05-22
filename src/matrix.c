@@ -17,9 +17,9 @@
 void	reset_matrix(t_dmat matrix)
 {
 	const t_dmat	identity = {
-			(t_dvec){1.0, 0.0, 0.0, 0.0},
-			(t_dvec){0.0, 1.0, 0.0, 0.0},
-			(t_dvec){0.0, 0.0, 1.0, 0.0}
+		(t_dvec){1.0, 0.0, 0.0, 0.0},
+		(t_dvec){0.0, 1.0, 0.0, 0.0},
+		(t_dvec){0.0, 0.0, 1.0, 0.0}
 	};
 
 	matrix[0] = identity[0];
@@ -60,29 +60,4 @@ t_dvec	mult_vec(t_dmat matrix, t_dvec vector)
 		vector[Y] * matrix[Z][1] +
 		vector[Z] * matrix[Z][2]
 	});
-}
-
-void	mult_mat(t_dmat dst, t_dmat src)
-{
-	t_dmat	res;
-	int	i, j, k;
-	
-	i = 0;
-	while (i < 3)
-	{
-		j = 0;
-		while (j < 3)
-		{
-			k = 0;
-			res[i][j] = 0;
-			while (k < 3)
-			{
-				res[i][j] += dst[i][k] * src[k][j];
-				++k;
-			}
-			++j;
-		}
-		++i;
-	}
-	ft_memcpy(dst, res, sizeof(t_dmat));
 }
