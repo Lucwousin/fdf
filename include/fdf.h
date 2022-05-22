@@ -111,11 +111,11 @@ void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier);
 void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier);
 void	zscale_cam(t_cam *cam, bool dec, bool modifier);
 
-void	reset_matrix(t_dmat matrix);
+void	identity_matrix(t_dmat matrix);
 t_dvec	ivec_to_dvec(t_ivec ivec);
 t_ivec	dvec_to_ivec(t_dvec dvec);
 t_dvec	mult_vec(t_dmat matrix, t_dvec vector);
-t_dvec	init_iso_q(void);
+t_dvec	init_isometric_quaternion(void);
 
 t_rgba	get_rgba(uint32_t hex);
 t_hsva	rgba_to_hsva(t_rgba rgb);

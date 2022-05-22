@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <math.h>
 
-void	reset_matrix(t_dmat matrix)
+void	identity_matrix(t_dmat matrix)
 {
 	const t_dmat	identity = {
 		(t_dvec){1.0, 0.0, 0.0, 0.0},

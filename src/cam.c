@@ -22,14 +22,14 @@ void	reset_cam(t_fdf *data)
 	cam->z_scale = 1.0;
 	cam->angles = (t_dvec){0, 0, 0, 0};
 	cam->old_angles = (t_dvec){0, 0, 0, 0};
-	cam->rot_q = init_iso_q();
+	cam->rot_q = init_isometric_quaternion();
 	cam->focal[X] = (int32_t) data->map.max_x / 2;
 	cam->focal[Y] = (int32_t) data->map.max_y / 2;
 	cam->focal[Z] = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
 	cam->offset[X] = (int32_t)(data->img->width / 2);
 	cam->offset[Y] = (int32_t)(data->img->height / 2);
 	cam->offset[Z] = 0;
-	reset_matrix(cam->matrix);
+	identity_matrix(cam->matrix);
 }
 
 void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier)

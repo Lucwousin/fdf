@@ -13,7 +13,7 @@
 #include "fdf.h"
 #include <math.h>
 
-t_dvec	mult_quaternion(t_dvec a, t_dvec b)
+static t_dvec	mul_quaternion(t_dvec a, t_dvec b)
 {
 	return ((t_dvec){
 		a[W] * b[X] + a[X] * b[W] + a[Y] * b[Z] - a[Z] * b[Y],
@@ -23,7 +23,7 @@ t_dvec	mult_quaternion(t_dvec a, t_dvec b)
 	});
 }
 
-void	create_q_matrix(t_dmat mat, t_dvec q)
+static void	quaternion_to_matrix(t_dmat mat, t_dvec q)
 {
 	mat[0] = (t_dvec){
 		1 - 2 * (q[Y] * q[Y] + q[Z] * q[Z]),
@@ -42,21 +42,21 @@ void	create_q_matrix(t_dmat mat, t_dvec q)
 	};
 }
 
-static t_dvec	new_quat(t_dvec unit, double delta_rot)
+static t_dvec	new_quaternion(t_dvec unit, double delta_rot)
 {
 	unit *= sin(delta_rot / 2);
 	unit[W] = cos(delta_rot / 2);
 	return (unit);
 }
 
-t_dvec	init_iso_q(void)
+t_dvec	init_isometric_quaternion(void)
 {
 	t_dvec	roll;
 	t_dvec	pitch;
 
-	roll = new_quat((t_dvec){0, 0, 1, 0}, M_PI_4);
-	pitch = new_quat((t_dvec){1, 0, 0, 0}, atan(M_SQRT2));
-	return (mult_quaternion(pitch, roll));
+	roll = new_quaternion((t_dvec) {0, 0, 1, 0}, M_PI_4);
+	pitch = new_quaternion((t_dvec) {1, 0, 0, 0}, atan(M_SQRT2));
+	return (mul_quaternion(pitch, roll));
 }
 
 void	update_rotation(t_cam *cam)
@@ -76,11 +76,11 @@ void	update_rotation(t_cam *cam)
 	{
 		if (delta_angles[a] != 0)
 		{
-			tmp_quaternion = new_quat(uvs[a], delta_angles[a]);
-			cam->rot_q = mult_quaternion(tmp_quaternion, cam->rot_q);
+			tmp_quaternion = new_quaternion(uvs[a], delta_angles[a]);
+			cam->rot_q = mul_quaternion(tmp_quaternion, cam->rot_q);
 		}
 		++a;
 	}
-	create_q_matrix(cam->matrix, cam->rot_q);
+	quaternion_to_matrix(cam->matrix, cam->rot_q);
 	cam->old_angles = cam->angles;
 }
