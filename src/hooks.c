@@ -12,8 +12,6 @@
 
 #include "fdf.h"
 #include "MLX42/MLX42.h"
-#include <stdio.h>
-#define CAM_DOUBLE_AMT	0.05
 
 void	key_event(mlx_key_data_t event, void *param)
 {
@@ -40,8 +38,6 @@ void	key_event(mlx_key_data_t event, void *param)
 		translate_cam(&fdf->cam, Y, event.key == MLX_KEY_UP, modifier);
 	else if (event.key == MLX_KEY_0)
 		reset_cam(fdf);
-	else if (event.key == MLX_KEY_P)
-		printf("%f, %f, %f\n", fdf->cam.angles[PITCH], fdf->cam.angles[YAW], fdf->cam.angles[ROLL]);
 	render(fdf);
 }
 

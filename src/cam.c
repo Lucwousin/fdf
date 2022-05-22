@@ -12,7 +12,6 @@
 
 #include "fdf.h"
 #include <math.h>
-#define CAM_DOUBLE_AMT	0.05
 
 void	reset_cam(t_fdf *data)
 {
@@ -23,7 +22,7 @@ void	reset_cam(t_fdf *data)
 	cam->z_scale = 1.0;
 	cam->angles = (t_dvec){0, 0, 0, 0};
 	cam->old_angles = (t_dvec){0, 0, 0, 0};
-	cam->rot_q = (t_dvec){0, 0, 0, 1};
+	cam->rot_q = init_iso_q();
 	cam->focal[X] = (int32_t) data->map.max_x / 2;
 	cam->focal[Y] = (int32_t) data->map.max_y / 2;
 	cam->focal[Z] = (data->map.max_z - data->map.min_z) / 2 + data->map.min_z;
@@ -37,7 +36,7 @@ void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier)
 {
 	double	amount;
 
-	amount = CAM_DOUBLE_AMT;
+	amount = M_PI / 60;
 	if (modifier)
 		amount *= 10;
 	if (dec)
@@ -65,7 +64,7 @@ void	zscale_cam(t_cam *cam, bool dec, bool modifier)
 {
 	double	amount;
 
-	amount = CAM_DOUBLE_AMT;
+	amount = 0.05;
 	if (modifier)
 		amount *= 10;
 	if (dec)

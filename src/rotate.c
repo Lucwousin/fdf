@@ -42,14 +42,21 @@ void	create_q_matrix(t_dmat mat, t_dvec q)
 	};
 }
 
-t_dvec	new_quat(t_dmat mat, t_dvec unit, double delta_rot)
+static t_dvec	new_quat(t_dvec unit, double delta_rot)
 {
-	(void) mat;
-	// Rotate unit vector according to previous rotation
-	//mult_vec(mat, unit);
 	unit *= sin(delta_rot / 2);
 	unit[W] = cos(delta_rot / 2);
 	return (unit);
+}
+
+t_dvec	init_iso_q(void)
+{
+	t_dvec	roll;
+	t_dvec	pitch;
+
+	roll = new_quat((t_dvec){0, 0, 1, 0}, M_PI_4);
+	pitch = new_quat((t_dvec){1, 0, 0, 0}, atan(M_SQRT2));
+	return (mult_quaternion(pitch, roll));
 }
 
 void	update_rotation(t_cam *cam)
@@ -69,7 +76,7 @@ void	update_rotation(t_cam *cam)
 	{
 		if (delta_angles[a] != 0)
 		{
-			quat = new_quat(cam->matrix, uvs[a], delta_angles[a]);
+			quat = new_quat(uvs[a], delta_angles[a]);
 			cam->rot_q = mult_quaternion(quat, cam->rot_q);
 		}
 		++a;
