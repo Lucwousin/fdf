@@ -15,6 +15,7 @@
 # define WINDOW_WIDTH	1280
 # define WINDOW_HEIGHT	720
 # define DEFAULT_COLOUR	0xFFFFFFFF
+# include "colour.h"
 # include "MLX42/MLX42.h"
 # define ERR_ARGS		"Error: Not enough arguments\nUsage: ./fdf <map_file>"
 # define ERR_MAP_PARSE	"Error: Map parsing failed"
@@ -22,23 +23,6 @@
 # define ERR_MAL_TITLE	"Error: Failed to allocate title"
 # define ERR_MLX_INIT	"Error: MLX failed to initialize"
 # define ERR_MLX_IMG	"Error: Could not create image"
-
-typedef union u_rgba {
-	uint32_t	colour;
-	struct s_rgba {
-		uint8_t	a;
-		uint8_t	b;
-		uint8_t	g;
-		uint8_t	r;
-	} rgba;
-}	t_rgba;
-
-typedef struct s_hsva {
-	double	h;
-	double	s;
-	double	v;
-	uint8_t	a;
-}	t_hsva;
 
 typedef int32_t	t_ivec __attribute__ ((vector_size (16)));
 
@@ -123,16 +107,9 @@ t_ivec	dvec_to_ivec(t_dvec dvec);
 t_dvec	mult_vec(t_dmat matrix, t_dvec vector);
 t_dvec	init_isometric_quaternion(void);
 
-t_rgba	get_rgba(uint32_t hex);
-t_hsva	rgba_to_hsva(t_rgba rgb);
-t_rgba	hsva_to_rgba(t_hsva hsv);
-void	normalize_colours(t_hsva *a, t_hsva *b);
-
 void	key_event(mlx_key_data_t event, void *param);
 void	scroll_event(double xdelta, double ydelta, void *param);
 void	resize_event(int32_t width, int32_t height, void *param);
-
-void	cleanup_map(t_map *map);
 
 void	error(t_fdf *data, char *reason, bool in_lib);
 void	init_map(t_fdf *data, const char *map);

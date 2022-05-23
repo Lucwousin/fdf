@@ -26,8 +26,7 @@ SRCS = cam.c\
 	   parser.c\
 	   project.c\
 	   render.c\
-	   rotate.c\
-	   utils.c
+	   rotate.c
 
 OBJS = $(SRCS:.c=.o)
 OBJS_PREFIXED = $(addprefix $(OBJ_DIR), $(OBJS))

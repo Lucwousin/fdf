@@ -16,6 +16,16 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static void	cleanup_map(t_map *map)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (map->points[i])
+		ft_free_mult((void **) map->points[i++]);
+	free(map->points);
+}
+
 static void	cleanup(t_fdf *data)
 {
 	if (data->title)

@@ -115,6 +115,11 @@ static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other, 
 	*minor = rgb_min + (uint8_t)(rgb_delta * minor_fraction);
 }
 
+/**
+ * Convert a HSV colour to RGB
+ * 
+ * https://en.wikipedia.org/wiki/HSL_and_HSV#/media/File:HSV-RGB-comparison.svg
+ */
 t_rgba	hsva_to_rgba(t_hsva hsv)
 {
 	t_rgba	rgb;
@@ -137,4 +142,26 @@ t_rgba	hsva_to_rgba(t_hsva hsv)
 	else if (section < 6)
 		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.b, &rgb.rgba.g, false);
 	return (rgb);
+}
+
+/**
+ * Initialize hue and saturation data from the other colour
+ * So that we do not always start with hue 0 if value or saturation was 0
+ */
+void	normalize_hsva(t_hsva *a, t_hsva *b)
+{
+	if (a->v == 0)
+	{
+		a->h = b->h;
+		a->s = b->s;
+	}
+	else if (b->v == 0)
+	{
+		b->h = a->h;
+		b->s = a->s;
+	}
+	else if (a->s == 0)
+		a->h = b->h;
+	else if (b->s == 0)
+		b->h = a->h;
 }

@@ -85,7 +85,7 @@ static t_line	get_line_info(t_point a, t_point b)
 	line.y = a.vec[Y];
 	line.colour_a = rgba_to_hsva(a.colour);
 	line.colour_b = rgba_to_hsva(b.colour);
-	normalize_colours(&line.colour_a, &line.colour_b);
+	normalize_hsva(&line.colour_a, &line.colour_b);
 	return (line);
 }
 
