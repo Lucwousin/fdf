@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "libft.h"
 #include <math.h>
 
 void	identity_matrix(t_dmat matrix)

@@ -96,18 +96,23 @@ t_hsva	rgba_to_hsva(t_rgba rgb)
  * Minor is the second biggest of the rgb value.
  * Other is the rgb value that's only dependent on the saturation.
  */
-static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other)
+static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other, bool asc)
 {
 	uint8_t	rgb_max;
 	uint8_t	rgb_min;
 	uint8_t	rgb_delta;
+	double	minor_fraction;
 
 	rgb_max = (uint8_t)(hsv.v * 0xFF);
 	rgb_delta = (uint8_t)(hsv.s * rgb_max);
 	rgb_min = rgb_max - rgb_delta;
 	*major = rgb_max;
 	*other = rgb_min;
-	*minor = (uint8_t)(rgb_min + fmod(hsv.h, DEG_60) * rgb_delta);
+	if (asc)
+		minor_fraction = fmod(hsv.h, DEG_60) / DEG_60;
+	else
+		minor_fraction = 1 - fmod(hsv.h, DEG_60) / DEG_60;
+	*minor = rgb_min + (uint8_t)(rgb_delta * minor_fraction);
 }
 
 t_rgba	hsva_to_rgba(t_hsva hsv)
@@ -120,16 +125,16 @@ t_rgba	hsva_to_rgba(t_hsva hsv)
 		return (get_rgba(rgb.rgba.a));
 	section = (uint8_t)(hsv.h / DEG_60);
 	if (section < 1)
-		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.g, &rgb.rgba.b);
-	else if (section >= 1 && section < 2)
-		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.r, &rgb.rgba.b);
-	else if (section >= 2 && section < 3)
-		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.b, &rgb.rgba.r);
-	else if (section >= 3 && section < 4)
-		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.g, &rgb.rgba.r);
-	else if (section >= 4 && section < 5)
-		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.r, &rgb.rgba.g);
-	else if (section >= 5 && section < 6)
-		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.b, &rgb.rgba.g);
+		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.g, &rgb.rgba.b, true);
+	else if (section < 2)
+		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.r, &rgb.rgba.b, false);
+	else if (section < 3)
+		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.b, &rgb.rgba.r, true);
+	else if (section < 4)
+		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.g, &rgb.rgba.r, false);
+	else if (section < 5)
+		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.r, &rgb.rgba.g, true);
+	else if (section < 6)
+		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.b, &rgb.rgba.g, false);
 	return (rgb);
 }
