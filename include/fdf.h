@@ -89,29 +89,47 @@ typedef struct s_fdf {
 	mlx_image_t	*img;
 }	t_fdf;
 
+/*
+ * Init functions
+ */
+void	init_map(t_fdf *data, const char *map);
 bool	parse(t_map *map, const char *file);
-void	render(t_fdf *data);
-void	draw_line(mlx_image_t *img, t_point a, t_point b);
+void	init_mlx(t_fdf *data, const char *map);
 
-void	update_rotation(t_cam *cam);
-
-void	reset_cam(t_fdf *data);
-void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier);
-void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier);
-void	zscale_cam(t_cam *cam, bool dec, bool modifier);
-
-void	identity_matrix(t_dmat matrix);
-t_dvec	ivec_to_dvec(t_ivec ivec);
-t_ivec	dvec_to_ivec(t_dvec dvec);
-t_dvec	mult_vec(t_dmat matrix, t_dvec vector);
-t_dvec	init_isometric_quaternion(void);
-
+/*
+ * Hooks
+ */
 void	key_event(mlx_key_data_t event, void *param);
 void	scroll_event(double xdelta, double ydelta, void *param);
 void	resize_event(int32_t width, int32_t height, void *param);
 
+/*
+ * Draw functions
+ */
+void	render(t_fdf *data);
+void	update_rotation(t_cam *cam);
+void	draw_line(mlx_image_t *img, t_point a, t_point b);
+
+/*
+ * Cam functions
+ */
+void	reset_cam(t_fdf *data);
+void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier);
+void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier);
+void	zscale_cam(t_cam *cam, bool dec, bool modifier);
+t_dvec	init_isometric_quaternion(void);
+
+/*
+ * Matrix/vector functions
+ */
+void	identity_matrix(t_dmat matrix);
+t_dvec	ivec_to_dvec(t_ivec ivec);
+t_ivec	dvec_to_ivec(t_dvec dvec);
+t_dvec	mult_vec(t_dmat matrix, t_dvec vector);
+
+/*
+ * The most important function of all
+ */
 void	error(t_fdf *data, char *reason, bool in_lib);
-void	init_map(t_fdf *data, const char *map);
-void	init_mlx(t_fdf *data, const char *map);
 
 #endif
