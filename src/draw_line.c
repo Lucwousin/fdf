@@ -32,23 +32,21 @@ static double	calculate_progress(t_ivec a, t_ivec b, t_line *line)
 	{
 		if (line->x == a[X])
 			return (0.0);
-		else if (line->x == b[X])
+		if (line->x == b[X])
 			return (1.0);
-		else
-			return (abs(line->x - a[X]) / (double)(line->dx));
+		return (abs(line->x - a[X]) / (double)(line->dx));
 	}
 	else
 	{
 		if (line->y == a[Y])
 			return (0.0);
-		else if (line->y == b[Y])
+		if (line->y == b[Y])
 			return (1.0);
-		else
-			return (abs(line->y - a[Y]) / (double)(line->dy));
+		return (abs(line->y - a[Y]) / (double)(line->dy));
 	}
 }
 
-static uint32_t	intrpl_col(t_point a, t_point b, t_line *line)
+static uint32_t	get_colour(t_point a, t_point b, t_line *line)
 {
 	double	progress;
 	t_hsva	colour;
@@ -95,22 +93,22 @@ void	draw_line(mlx_image_t *img, t_point a, t_point b)
 	int32_t	error;
 
 	line = get_line_info(a, b);
-	error = 2 * (int32_t) line.dx - (int32_t) line.dy;
+	error = (int32_t) line.dx - (int32_t) line.dy;
 	while (true)
 	{
 		if (in_bounds(img, &line))
-			mlx_put_pixel(img, line.x, line.y, intrpl_col(a, b, &line));
+			mlx_put_pixel(img, line.x, line.y, get_colour(a, b, &line));
 		if (line.x == b.vec[X] && line.y == b.vec[Y])
 			return ;
 		if (error >= 0)
 		{
 			line.x += line.x_step;
-			error -= 2 * (int32_t) line.dy;
+			error -= (int32_t) line.dy;
 		}
 		if (error < 0)
 		{
 			line.y += line.y_step;
-			error += 2 * (int32_t) line.dx;
+			error += (int32_t) line.dx;
 		}
 	}
 }

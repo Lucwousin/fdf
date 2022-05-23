@@ -24,7 +24,6 @@ SRCS = cam.c\
 	   init.c\
 	   matrix.c\
 	   parser.c\
-	   project.c\
 	   render.c\
 	   rotate.c
 
@@ -58,7 +57,7 @@ libmlx:
 	@make -C $(MLX)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC_DIR)fdf.h
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(@D)
 	@echo "Compiling: $<"
 	@$(CC) $(CFLAGS) -I $(INC_DIR) $(LIBFT_INC) $(MLX_INC) -c -o $@ $<
 

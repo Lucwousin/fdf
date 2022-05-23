@@ -13,6 +13,33 @@
 #include "fdf.h"
 #include "libft.h"
 
+static t_point	project(t_point point, t_cam *cam)
+{
+	t_dvec	vec;
+
+	point.vec -= cam->focal;
+	point.vec *= cam->scale;
+	point.vec[Z] = (int32_t)(point.vec[Z] * cam->z_scale);
+	vec = ivec_to_dvec(point.vec);
+	vec = mult_vec(cam->matrix, vec);
+	point.vec = dvec_to_ivec(vec);
+	point.vec += cam->offset;
+	return (point);
+}
+
+static bool	on_screen(t_ivec a, t_ivec b, uint32_t w, uint32_t h)
+{
+	if (a[X] < 0 && b[X] < 0)
+		return (false);
+	if (a[X] >= (int32_t) w && b[X] >= (int32_t) w)
+		return (false);
+	if (a[Y] < 0 && b[Y] < 0)
+		return (false);
+	if (a[Y] >= (int32_t) h && b[Y] >= (int32_t) h)
+		return (false);
+	return (true);
+}
+
 static void	draw_between(t_fdf *data, t_point a, t_point b)
 {
 	mlx_image_t	*img;
@@ -20,13 +47,7 @@ static void	draw_between(t_fdf *data, t_point a, t_point b)
 	img = data->img;
 	a = project(a, &data->cam);
 	b = project(b, &data->cam);
-	if (a.vec[X] < 0 && b.vec[X] < 0)
-		return ;
-	if (a.vec[X] >= (int32_t)img->width && b.vec[X] >= (int32_t)img->width)
-		return ;
-	if (a.vec[Y] < 0 && b.vec[Y] < 0)
-		return ;
-	if (a.vec[Y] >= (int32_t)img->height && b.vec[Y] >= (int32_t)img->height)
+	if (!on_screen(a.vec, b.vec, img->width, img->height))
 		return ;
 	draw_line(img, a, b);
 }

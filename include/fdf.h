@@ -91,7 +91,6 @@ typedef struct s_fdf {
 
 bool	parse(t_map *map, const char *file);
 void	render(t_fdf *data);
-t_point	project(t_point point, t_cam *cam);
 void	draw_line(mlx_image_t *img, t_point a, t_point b);
 
 void	update_rotation(t_cam *cam);
