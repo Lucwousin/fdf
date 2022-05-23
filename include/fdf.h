@@ -16,6 +16,12 @@
 # define WINDOW_HEIGHT	720
 # define DEFAULT_COLOUR	0xFFFFFFFF
 # include "MLX42/MLX42.h"
+# define ERR_ARGS		"Error: Not enough arguments\nUsage: ./fdf <map_file>"
+# define ERR_MAP_PARSE	"Error: Map parsing failed"
+# define ERR_MAP_VALID	"Error: Invalid map!"
+# define ERR_MAL_TITLE	"Error: Failed to allocate title"
+# define ERR_MLX_INIT	"Error: MLX failed to initialize"
+# define ERR_MLX_IMG	"Error: Could not create image"
 
 typedef union u_rgba {
 	uint32_t	colour;
@@ -127,5 +133,9 @@ void	scroll_event(double xdelta, double ydelta, void *param);
 void	resize_event(int32_t width, int32_t height, void *param);
 
 void	cleanup_map(t_map *map);
+
+void	error(t_fdf *data, char *reason, bool in_lib);
+void	init_map(t_fdf *data, const char *map);
+void	init_mlx(t_fdf *data, const char *map);
 
 #endif

@@ -18,9 +18,10 @@ INC_DIR = include/
 
 SRCS = cam.c\
 	   colour.c\
-	   fdf.c\
 	   draw_line.c\
+	   fdf.c\
 	   hooks.c\
+	   init.c\
 	   matrix.c\
 	   parser.c\
 	   project.c\

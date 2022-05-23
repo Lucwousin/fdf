@@ -44,13 +44,18 @@ static t_point	***parse_fd(int fd, int i)
 	t_point	***ret;
 	t_point	**line_points;
 	char	*line;
+	char	*trimmed;
 
 	line = get_next_line(fd);
 	if (!line)
 		return (ft_calloc(i + 1, sizeof(t_point **)));
-	line_points = (t_point **) ft_split_map(line, ' ',
-			(void *(*)(char *)) create_point, free);
+	trimmed = ft_strtrim(line, " \n");
 	free(line);
+	if (!trimmed)
+		return (NULL);
+	line_points = (t_point **) ft_split_map(trimmed, ' ',
+			(void *(*)(char *)) create_point, free);
+	free(trimmed);
 	if (!line_points)
 		return (NULL);
 	ret = parse_fd(fd, i + 1);
@@ -59,35 +64,6 @@ static t_point	***parse_fd(int fd, int i)
 	else
 		ret[i] = line_points;
 	return (ret);
-}
-
-static bool	init_map_data(t_map *map)
-{
-	uint32_t	x;
-	uint32_t	y;
-
-	y = 0;
-	map->min_z = INT32_MAX;
-	map->max_z = INT32_MIN;
-	while (map->points[y])
-	{
-		x = 0;
-		while (map->points[y][x])
-		{
-			map->points[y][x]->vec[X] = (int32_t) x;
-			map->points[y][x]->vec[Y] = (int32_t) y;
-			map->min_z = ft_min(map->points[y][x]->vec[Z], map->min_z);
-			map->max_z = ft_max(map->points[y][x]->vec[Z], map->max_z);
-			++x;
-		}
-		if (map->max_x == 0)
-			map->max_x = x - 1;
-		else if (map->max_x != x - 1)
-			return (false);
-		++y;
-	}
-	map->max_y = y - 1;
-	return (true);
 }
 
 bool	parse(t_map *map, const char *file)
@@ -99,7 +75,5 @@ bool	parse(t_map *map, const char *file)
 		return (false);
 	map->points = parse_fd(fd, 0);
 	close(fd);
-	if (!map->points)
-		return (false);
-	return (init_map_data(map));
+	return (map->points != NULL);
 }
