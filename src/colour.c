@@ -96,7 +96,7 @@ t_hsva	rgba_to_hsva(t_rgba rgb)
  * Minor is the second biggest of the rgb value.
  * Other is the rgb value that's only dependent on the saturation.
  */
-static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other, bool asc)
+static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other)
 {
 	uint8_t	rgb_max;
 	uint8_t	rgb_min;
@@ -108,10 +108,9 @@ static void	set_rgb(t_hsva hsv, uint8_t *major, uint8_t *minor, uint8_t *other, 
 	rgb_min = rgb_max - rgb_delta;
 	*major = rgb_max;
 	*other = rgb_min;
-	if (asc)
-		minor_fraction = fmod(hsv.h, DEG_60) / DEG_60;
-	else
-		minor_fraction = 1 - fmod(hsv.h, DEG_60) / DEG_60;
+	minor_fraction = fmod(hsv.h, DEG_60) / DEG_60;
+	if ((uint8_t)(hsv.h / DEG_60) % 2 != 0)
+		minor_fraction = 1 - minor_fraction;
 	*minor = rgb_min + (uint8_t)(rgb_delta * minor_fraction);
 }
 
@@ -130,17 +129,17 @@ t_rgba	hsva_to_rgba(t_hsva hsv)
 		return (get_rgba(rgb.rgba.a));
 	section = (uint8_t)(hsv.h / DEG_60);
 	if (section < 1)
-		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.g, &rgb.rgba.b, true);
+		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.g, &rgb.rgba.b);
 	else if (section < 2)
-		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.r, &rgb.rgba.b, false);
+		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.r, &rgb.rgba.b);
 	else if (section < 3)
-		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.b, &rgb.rgba.r, true);
+		set_rgb(hsv, &rgb.rgba.g, &rgb.rgba.b, &rgb.rgba.r);
 	else if (section < 4)
-		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.g, &rgb.rgba.r, false);
+		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.g, &rgb.rgba.r);
 	else if (section < 5)
-		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.r, &rgb.rgba.g, true);
+		set_rgb(hsv, &rgb.rgba.b, &rgb.rgba.r, &rgb.rgba.g);
 	else if (section < 6)
-		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.b, &rgb.rgba.g, false);
+		set_rgb(hsv, &rgb.rgba.r, &rgb.rgba.b, &rgb.rgba.g);
 	return (rgb);
 }
 

@@ -54,8 +54,8 @@ t_dvec	init_isometric_quaternion(void)
 	t_dvec	roll;
 	t_dvec	pitch;
 
-	roll = new_quaternion((t_dvec) {0, 0, 1, 0}, M_PI_4);
-	pitch = new_quaternion((t_dvec) {1, 0, 0, 0}, atan(M_SQRT2));
+	roll = new_quaternion((t_dvec){0, 0, 1, 0}, M_PI_4);
+	pitch = new_quaternion((t_dvec){1, 0, 0, 0}, atan(M_SQRT2));
 	return (mul_quaternion(pitch, roll));
 }
 
