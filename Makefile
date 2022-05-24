@@ -22,6 +22,7 @@ SRCS = cam.c\
 	   fdf.c\
 	   hooks.c\
 	   init.c\
+	   line_colour.c\
 	   matrix.c\
 	   parser.c\
 	   render.c\

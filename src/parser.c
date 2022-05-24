@@ -31,7 +31,7 @@ static t_point	*create_point(char *str)
 		return (NULL);
 	}
 	point->vec[Z] = ft_atoi(strs[0]);
-	point->height = point->vec[Z];
+	point->orig_z = point->vec[Z];
 	if (strs[1])
 		point->colour = get_rgba((ft_hextoui(strs[1]) << 8u) | 0xFFu);
 	else

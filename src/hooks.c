@@ -38,6 +38,8 @@ void	key_event(mlx_key_data_t event, void *param)
 		translate_cam(&fdf->cam, Y, event.key == MLX_KEY_UP, modifier);
 	else if (event.key == MLX_KEY_0)
 		reset_cam(fdf);
+	else if (event.key == MLX_KEY_C)
+		fdf->col = (fdf->col + 1) % END;
 	render(fdf);
 }
 

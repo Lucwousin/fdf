@@ -39,7 +39,7 @@ typedef enum e_axis {
 
 typedef struct s_point {
 	t_ivec	vec;
-	int32_t	height;
+	int32_t	orig_z;
 	t_rgba	colour;
 }	t_point;
 
@@ -50,8 +50,7 @@ typedef struct s_line {
 	uint32_t	dy;
 	int8_t		x_step;
 	int8_t		y_step;
-	t_hsva		colour_a;
-	t_hsva		colour_b;
+	t_hsva		colours[2];
 }	t_line;
 
 typedef struct s_map {
@@ -73,7 +72,9 @@ typedef enum e_angle {
 
 typedef enum e_col_mode {
 	DEFAULT,
-	HEIGHT
+	HEIGHT,
+	GREYS,
+	END
 }	t_col;
 
 typedef struct s_cam {
@@ -113,9 +114,11 @@ void	resize_event(int32_t width, int32_t height, void *param);
 /*
  * Draw functions
  */
-void	render(t_fdf *data);
-void	update_rotation(t_cam *cam);
-void	draw_line(mlx_image_t *img, t_point a, t_point b, t_fdf *data);
+void		render(t_fdf *data);
+void		update_rotation(t_cam *cam);
+void		draw_line(mlx_image_t *img, t_point a, t_point b, t_fdf *data);
+void		init_line_colours(t_fdf *data, t_hsva cols[2], t_point a, t_point b);
+uint32_t	inter_line_colour(t_point a, t_point b, t_line *line);
 
 /*
  * Cam functions
