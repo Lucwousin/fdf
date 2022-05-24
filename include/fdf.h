@@ -62,7 +62,7 @@ typedef struct s_map {
 }	t_map;
 
 typedef double	t_dvec __attribute__ ((vector_size (4 * sizeof(double))));
-typedef t_dvec	t_dmat[3];
+typedef t_dvec	t_dmat[4];
 
 typedef enum e_angle {
 	PITCH,

@@ -25,7 +25,7 @@ static t_point	*create_point(char *str)
 	if (!point)
 		return (NULL);
 	strs = ft_split(str, ',');
-	if (!strs || !strs[0] || *strs[0] == '\0' || *strs[0] == '\n')
+	if (!strs || !strs[0] || *strs[0] == '\0')
 	{
 		free(point);
 		return (NULL);

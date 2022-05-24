@@ -40,6 +40,7 @@ static void	quaternion_to_matrix(t_dmat mat, t_dvec q)
 		2 * (q[Y] * q[Z] + q[W] * q[X]),
 		1 - 2 * (q[X] * q[X] + q[Y] * q[Y]),
 	};
+	mat[3] = (t_dvec){0, 0, 0, 1};
 }
 
 static t_dvec	new_quaternion(t_dvec unit, double delta_rot)
