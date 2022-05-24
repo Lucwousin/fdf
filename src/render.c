@@ -49,7 +49,7 @@ static void	draw_between(t_fdf *data, t_point a, t_point b)
 	b = project(b, &data->cam);
 	if (!on_screen(a.vec, b.vec, img->width, img->height))
 		return ;
-	draw_line(img, a, b);
+	draw_line(img, a, b, data);
 }
 
 static void	clear_image(mlx_image_t *img)

@@ -39,6 +39,7 @@ typedef enum e_axis {
 
 typedef struct s_point {
 	t_ivec	vec;
+	int32_t	height;
 	t_rgba	colour;
 }	t_point;
 
@@ -70,6 +71,11 @@ typedef enum e_angle {
 	ROLL
 }	t_angle;
 
+typedef enum e_col_mode {
+	DEFAULT,
+	HEIGHT
+}	t_col;
+
 typedef struct s_cam {
 	int32_t		scale;
 	double		z_scale;
@@ -85,6 +91,7 @@ typedef struct s_fdf {
 	char		*title;
 	t_map		map;
 	t_cam		cam;
+	t_col		col;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 }	t_fdf;
@@ -108,7 +115,7 @@ void	resize_event(int32_t width, int32_t height, void *param);
  */
 void	render(t_fdf *data);
 void	update_rotation(t_cam *cam);
-void	draw_line(mlx_image_t *img, t_point a, t_point b);
+void	draw_line(mlx_image_t *img, t_point a, t_point b, t_fdf *data);
 
 /*
  * Cam functions
