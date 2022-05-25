@@ -76,15 +76,17 @@ uint32_t	inter_colours(t_line *line)
 {
 	double	progress;
 	t_hsva	colour;
+	t_hsva	*colours;
 
+	colours = line->colours;
 	progress = calculate_progress(line->points[0], line->points[1], line);
 	if (progress == 0.0)
-		return (hsva_to_rgba(line->colours[0]).colour);
+		return (hsva_to_rgba(colours[0]).colour);
 	else if (progress == 1.0)
-		return (hsva_to_rgba(line->colours[1]).colour);
-	colour.h = ft_interpolate_d(line->colours[0].h, line->colours[1].h, progress);
-	colour.s = ft_interpolate_d(line->colours[0].s, line->colours[1].s, progress);
-	colour.v = ft_interpolate_d(line->colours[0].v, line->colours[1].v, progress);
-	colour.a = ft_interpolate_i(line->colours[0].a, line->colours[1].a, progress);
+		return (hsva_to_rgba(colours[1]).colour);
+	colour.h = ft_interpolate_d(colours[0].h, colours[1].h, progress);
+	colour.s = ft_interpolate_d(colours[0].s, colours[1].s, progress);
+	colour.v = ft_interpolate_d(colours[0].v, colours[1].v, progress);
+	colour.a = ft_interpolate_i(colours[0].a, colours[1].a, progress);
 	return (hsva_to_rgba(colour).colour);
 }
