@@ -18,9 +18,9 @@ static t_point	project(t_point point, t_cam *cam)
 	t_dvec	vec;
 
 	point.vec -= cam->focal;
-	point.vec *= cam->scale;
-	point.vec[Z] = (int32_t)(point.vec[Z] * cam->z_scale);
 	vec = ivec_to_dvec(point.vec);
+	vec *= cam->scale;
+	vec[Z] *= cam->z_scale;
 	vec = mult_vec(cam->matrix, vec);
 	point.vec = dvec_to_ivec(vec);
 	point.vec += cam->offset;
