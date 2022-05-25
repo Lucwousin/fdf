@@ -13,33 +13,40 @@
 #include "fdf.h"
 #include "MLX42/MLX42.h"
 
-void	key_event(mlx_key_data_t event, void *param)
+static bool	should_handle_event(mlx_key_data_t event)
+{
+	return (event.key != MLX_CONTROL
+		&& (event.action == MLX_PRESS || event.action == MLX_REPEAT));
+}
+
+static bool	is_ctrl_down(mlx_key_data_t event)
+{
+	return ((event.modifier & MLX_CONTROL) != 0);
+}
+
+void	key_event(mlx_key_data_t e, void *param)
 {
 	t_fdf	*fdf;
-	bool	modifier;
 
 	fdf = param;
-	modifier = (event.modifier & MLX_CONTROL) != 0;
-	if (event.action != MLX_PRESS && event.action != MLX_REPEAT)
+	if (!should_handle_event(e))
 		return ;
-	if (event.key == MLX_KEY_ESCAPE)
+	if (e.key == MLX_KEY_ESCAPE)
 		mlx_close_window(fdf->mlx);
-	else if (event.key == MLX_KEY_A || event.key == MLX_KEY_D)
-		rotate_cam(&fdf->cam, YAW, event.key == MLX_KEY_D, modifier);
-	else if (event.key == MLX_KEY_W || event.key == MLX_KEY_S)
-		rotate_cam(&fdf->cam, PITCH, event.key == MLX_KEY_W, modifier);
-	else if (event.key == MLX_KEY_Q || event.key == MLX_KEY_E)
-		rotate_cam(&fdf->cam, ROLL, event.key == MLX_KEY_E, modifier);
-	else if (event.key == MLX_KEY_PAGE_UP || event.key == MLX_KEY_PAGE_DOWN)
-		zscale_cam(&fdf->cam, event.key == MLX_KEY_PAGE_DOWN, modifier);
-	else if (event.key == MLX_KEY_LEFT || event.key == MLX_KEY_RIGHT)
-		translate_cam(&fdf->cam, X, event.key == MLX_KEY_LEFT, modifier);
-	else if (event.key == MLX_KEY_UP || event.key == MLX_KEY_DOWN)
-		translate_cam(&fdf->cam, Y, event.key == MLX_KEY_UP, modifier);
-	else if (event.key == MLX_KEY_0)
+	else if (e.key == MLX_KEY_A || e.key == MLX_KEY_D || e.key == MLX_KEY_W
+		|| e.key == MLX_KEY_S || e.key == MLX_KEY_Q || e.key == MLX_KEY_E)
+		rotate_cam(&fdf->cam, e.key, is_ctrl_down(e));
+	else if (e.key == MLX_KEY_LEFT || e.key == MLX_KEY_RIGHT
+		|| e.key == MLX_KEY_UP || e.key == MLX_KEY_DOWN)
+		translate_cam(&fdf->cam, e.key, is_ctrl_down(e));
+	else if (e.key == MLX_KEY_PAGE_UP || e.key == MLX_KEY_PAGE_DOWN)
+		zscale_cam(&fdf->cam, e.key == MLX_KEY_PAGE_DOWN, is_ctrl_down(e));
+	else if (e.key == MLX_KEY_0)
 		reset_cam(fdf);
-	else if (event.key == MLX_KEY_C)
+	else if (e.key == MLX_KEY_C)
 		fdf->col = (fdf->col + 1) % END;
+	else
+		return ;
 	render(fdf);
 }
 

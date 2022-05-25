@@ -67,9 +67,10 @@ void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 
 // Simple math
-int				ft_min(int a, int b);
-int				ft_max(int a, int b);
-int				ft_abs(int n);
+int32_t			ft_min(int32_t a, int32_t b);
+int32_t			ft_max(int32_t a, int32_t b);
+int32_t			ft_abs(int32_t n);
+int32_t			ft_clamp(int32_t val, int32_t min, int32_t max);
 int				ft_interpolate_i(int a, int b, double p);
 double			ft_interpolate_d(double a, double b, double p);
 

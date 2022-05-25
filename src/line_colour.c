@@ -30,7 +30,7 @@ static t_hsva	colour_from_height(t_point p, t_fdf *data)
 	return (colour);
 }
 
-void	init_line_colours(t_fdf *data, t_hsva cols[2], t_point a, t_point b)
+void	init_line_cols(t_fdf *data, t_hsva cols[2], t_point a, t_point b)
 {
 	if (data->col == DEFAULT)
 	{
@@ -54,13 +54,13 @@ void	init_line_colours(t_fdf *data, t_hsva cols[2], t_point a, t_point b)
 
 static double	calculate_progress(t_ivec a, t_ivec b, t_line *line)
 {
-	if (line->dx >= line->dy)
+	if (line->delta[X] >= line->delta[Y])
 	{
 		if (line->x == a[X])
 			return (0.0);
 		if (line->x == b[X])
 			return (1.0);
-		return (abs(line->x - a[X]) / (double)(line->dx));
+		return (abs(line->x - a[X]) / (double)(line->delta[X]));
 	}
 	else
 	{
@@ -68,16 +68,16 @@ static double	calculate_progress(t_ivec a, t_ivec b, t_line *line)
 			return (0.0);
 		if (line->y == b[Y])
 			return (1.0);
-		return (abs(line->y - a[Y]) / (double)(line->dy));
+		return (abs(line->y - a[Y]) / (double)(line->delta[Y]));
 	}
 }
 
-uint32_t	inter_line_colour(t_point a, t_point b, t_line *line)
+uint32_t	inter_colours(t_line *line)
 {
 	double	progress;
 	t_hsva	colour;
 
-	progress = calculate_progress(a.vec, b.vec, line);
+	progress = calculate_progress(line->points[0], line->points[1], line);
 	if (progress == 0.0)
 		return (hsva_to_rgba(line->colours[0]).colour);
 	else if (progress == 1.0)

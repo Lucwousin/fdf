@@ -9,7 +9,9 @@
 /*   Updated: 2021/12/18 18:01:21 by lsinke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-int	ft_min(int a, int b)
+#include <stdint.h>
+
+int32_t	ft_min(int32_t a, int32_t b)
 {
 	if (a < b)
 		return (a);
@@ -17,7 +19,7 @@ int	ft_min(int a, int b)
 		return (b);
 }
 
-int	ft_max(int a, int b)
+int32_t	ft_max(int32_t a, int32_t b)
 {
 	if (a > b)
 		return (a);
@@ -25,10 +27,15 @@ int	ft_max(int a, int b)
 		return (b);
 }
 
-int	ft_abs(int n)
+int32_t	ft_abs(int32_t n)
 {
 	if (n < 0)
 		return (n * -1);
 	else
 		return (n);
+}
+
+int32_t	ft_clamp(int32_t val, int32_t min, int32_t max)
+{
+	return (ft_max(min, ft_min(max, val)));
 }

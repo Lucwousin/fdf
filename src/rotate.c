@@ -69,11 +69,11 @@ void	update_rotation(t_cam *cam)
 	};
 	t_dvec			tmp_quaternion;
 	t_dvec			delta_angles;
-	t_angle			a;
+	t_axis			a;
 
 	delta_angles = cam->old_angles - cam->angles;
-	a = PITCH;
-	while (a <= ROLL)
+	a = X;
+	while (a <= Z)
 	{
 		if (delta_angles[a] != 0)
 		{

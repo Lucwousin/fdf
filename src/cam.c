@@ -13,6 +13,19 @@
 #include "fdf.h"
 #include <math.h>
 
+const static t_axis_info	g_axis_info[MLX_KEY_PAGE_DOWN] = {
+[MLX_KEY_W] = {X, true},
+[MLX_KEY_S] = {X, false},
+[MLX_KEY_A] = {Y, false},
+[MLX_KEY_D] = {Y, true},
+[MLX_KEY_Q] = {Z, false},
+[MLX_KEY_E] = {Z, true},
+[MLX_KEY_RIGHT] = {X, false},
+[MLX_KEY_LEFT] = {X, true},
+[MLX_KEY_DOWN] = {Y, false},
+[MLX_KEY_UP] = {Y, true}
+};
+
 void	reset_cam(t_fdf *data)
 {
 	t_cam	*cam;
@@ -32,30 +45,38 @@ void	reset_cam(t_fdf *data)
 	identity_matrix(cam->matrix);
 }
 
-void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier)
+void	rotate_cam(t_cam *cam, keys_t key, bool modifier)
 {
 	double	amount;
+	t_axis	axis;
+	bool	decrement;
 
+	axis = g_axis_info[key].axis;
+	decrement = g_axis_info[key].decrement;
 	amount = M_PI / 60;
 	if (modifier)
 		amount *= 10;
-	if (dec)
+	if (decrement)
 		amount *= -1;
-	cam->angles[angle] += amount;
-	if (cam->angles[angle] > 2 * M_PI)
-		cam->angles[angle] -= 2 * M_PI;
-	else if (cam->angles[angle] < 0)
-		cam->angles[angle] += 2 * M_PI;
+	cam->angles[axis] += amount;
+	if (cam->angles[axis] > 2 * M_PI)
+		cam->angles[axis] -= 2 * M_PI;
+	else if (cam->angles[axis] < 0)
+		cam->angles[axis] += 2 * M_PI;
 }
 
-void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier)
+void	translate_cam(t_cam *cam, keys_t key, bool modifier)
 {
 	int32_t	amount;
+	t_axis	axis;
+	bool	decrement;
 
+	axis = g_axis_info[key].axis;
+	decrement = g_axis_info[key].decrement;
 	amount = 1;
 	if (modifier)
 		amount *= 10;
-	if (dec)
+	if (decrement)
 		amount *= -1;
 	cam->offset[axis] += amount;
 }

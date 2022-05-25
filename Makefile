@@ -32,7 +32,7 @@ OBJS = $(SRCS:.c=.o)
 OBJS_PREFIXED = $(addprefix $(OBJ_DIR), $(OBJS))
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 
 LIBFT = ./libft/
 LIBFT_LIB = $(addprefix $(LIBFT), libft.a)

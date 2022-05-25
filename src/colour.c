@@ -33,7 +33,7 @@ t_rgba	get_rgba(uint32_t hex)
  * the center of the top circle white. A circular rainbow is around the circle
  * with red at 0 (or 360) degrees, green at 120 degrees, and blue at 240.
  * 
- * The hue is the angle on the circle
+ * The hue is the axis on the circle
  * if hue is 0.0 or 1.0 the colour is red, 0.3333 green, 0.6666 blue.
  * This means you can split the circle up in 3 parts.
  * Red dominant:	300 deg -  60 deg

@@ -24,11 +24,11 @@
 # define ERR_MLX_INIT	"Error: MLX failed to initialize"
 # define ERR_MLX_IMG	"Error: Could not create image"
 
-typedef int32_t	t_ivec __attribute__ ((vector_size (16)));
+typedef int32_t	t_ivec __attribute__ ((vector_size (4 * sizeof(int32_t))));
 
 /**
  * Enum for indices in t_dvec's.
- * W is the angle of rotation for rotation quaternions.
+ * W is the axis of rotation for rotation quaternions.
  */
 typedef enum e_axis {
 	X,
@@ -46,11 +46,10 @@ typedef struct s_point {
 typedef struct s_line {
 	int32_t		x;
 	int32_t		y;
-	uint32_t	dx;
-	uint32_t	dy;
-	int8_t		x_step;
-	int8_t		y_step;
+	uint32_t	delta[2];
+	int8_t		step[2];
 	t_hsva		colours[2];
+	t_ivec		points[2];
 }	t_line;
 
 typedef struct s_map {
@@ -63,12 +62,6 @@ typedef struct s_map {
 
 typedef double	t_dvec __attribute__ ((vector_size (4 * sizeof(double))));
 typedef t_dvec	t_dmat[4];
-
-typedef enum e_angle {
-	PITCH,
-	YAW,
-	ROLL
-}	t_angle;
 
 typedef enum e_col_mode {
 	DEFAULT,
@@ -97,19 +90,24 @@ typedef struct s_fdf {
 	mlx_image_t	*img;
 }	t_fdf;
 
+typedef struct s_axis_info {
+	t_axis	axis;
+	bool	decrement;
+}	t_axis_info;
+
 /*
  * Init functions
  */
-void	init_map(t_fdf *data, const char *map);
-bool	parse(t_map *map, const char *file);
-void	init_mlx(t_fdf *data, const char *map);
+void		init_map(t_fdf *data, const char *map);
+bool		parse(t_map *map, const char *file);
+void		init_mlx(t_fdf *data, const char *map);
 
 /*
  * Hooks
  */
-void	key_event(mlx_key_data_t event, void *param);
-void	scroll_event(double xdelta, double ydelta, void *param);
-void	resize_event(int32_t width, int32_t height, void *param);
+void		key_event(mlx_key_data_t e, void *param);
+void		scroll_event(double xdelta, double ydelta, void *param);
+void		resize_event(int32_t width, int32_t height, void *param);
 
 /*
  * Draw functions
@@ -117,29 +115,29 @@ void	resize_event(int32_t width, int32_t height, void *param);
 void		render(t_fdf *data);
 void		update_rotation(t_cam *cam);
 void		draw_line(mlx_image_t *img, t_point a, t_point b, t_fdf *data);
-void		init_line_colours(t_fdf *data, t_hsva cols[2], t_point a, t_point b);
-uint32_t	inter_line_colour(t_point a, t_point b, t_line *line);
+void		init_line_cols(t_fdf *data, t_hsva cols[2], t_point a, t_point b);
+uint32_t	inter_colours(t_line *line);
 
 /*
  * Cam functions
  */
-void	reset_cam(t_fdf *data);
-void	rotate_cam(t_cam *cam, t_angle angle, bool dec, bool modifier);
-void	translate_cam(t_cam *cam, t_axis axis, bool dec, bool modifier);
-void	zscale_cam(t_cam *cam, bool dec, bool modifier);
-t_dvec	init_isometric_quaternion(void);
+void		reset_cam(t_fdf *data);
+void		rotate_cam(t_cam *cam, keys_t key, bool modifier);
+void		translate_cam(t_cam *cam, keys_t key, bool modifier);
+void		zscale_cam(t_cam *cam, bool dec, bool modifier);
+t_dvec		init_isometric_quaternion(void);
 
 /*
  * Matrix/vector functions
  */
-void	identity_matrix(t_dmat matrix);
-t_dvec	ivec_to_dvec(t_ivec ivec);
-t_ivec	dvec_to_ivec(t_dvec dvec);
-t_dvec	mult_vec(t_dmat matrix, t_dvec vector);
+void		identity_matrix(t_dmat matrix);
+t_dvec		ivec_to_dvec(t_ivec ivec);
+t_ivec		dvec_to_ivec(t_dvec dvec);
+t_dvec		mult_vec(t_dmat matrix, t_dvec vector);
 
 /*
  * The most important function of all
  */
-void	error(t_fdf *data, char *reason, bool in_lib);
+void		error(t_fdf *data, char *reason, bool in_lib);
 
 #endif
