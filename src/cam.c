@@ -13,7 +13,7 @@
 #include "fdf.h"
 #include <math.h>
 
-const static t_axis_info	g_axis_info[MLX_KEY_PAGE_DOWN] = {
+const static t_axis_info	g_axis_info[] = {
 [MLX_KEY_W] = {X, true},
 [MLX_KEY_S] = {X, false},
 [MLX_KEY_A] = {Y, false},
